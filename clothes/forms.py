@@ -11,7 +11,7 @@ class ClothForm(forms.ModelForm):
     size = forms.ChoiceField(label='사이즈', widget=forms.Select(attrs={'class': 'form-select',}))
     price = forms.IntegerField(label='가격', widget=forms.NumberInput(attrs={'class': 'form-control',}))
     tags = forms.CharField(label='태그', widget=TagWidget(attrs={'class': 'form-control',}))
-    thumbnail = forms.ImageField(label='썸네일 이미지', widget=forms.ClearableFileInput , attrs={'class': 'form-control'}),
+    thumbnail = forms.ImageField(label='썸네일 이미지', widget=forms.ClearableFileInput(attrs={'class': 'form-control'})),
 
     class Meta:
         model = Cloth
