@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<main class="container">
+  <h1 class="">회원가입</h1>
+
+  <form action="{% url 'accounts:signup' %}" method="post" class="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="">회원 가입</button>
+  </form>
+</main>
+{% endblock content %}

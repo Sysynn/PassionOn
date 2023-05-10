@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<main class="container">
+  <h1 class="">{{ person.username }}의 프로필</h1>
+
+  <p>이름 - {{person.first_name}}</p>
+  <p>성 - {{person.last_name}}</p>
+  <p>이메일 - {{person.email}}</p>
+</main>
+{% endblock content %}
