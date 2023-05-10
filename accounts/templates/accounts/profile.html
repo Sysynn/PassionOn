@@ -1,12 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 
 
 {% block content %}
 <main class="container">
   <h1 class="">{{ person.username }}의 프로필</h1>
 
-  <p>이름 - {{person.first_name}}</p>
-  <p>성 - {{person.last_name}}</p>
-  <p>이메일 - {{person.email}}</p>
+  {% if person.profile_image %}
+  <img src="{{ person.profile_image.url }}" alt="" class="">
+  {% else %}
+  <img src="{% static 'blank-profile.png' %}" alt="" class="">
+  {% endif %}
+
+  <p>이름 - {{ person.first_name }}</p>
+  <p>성 - {{ person.last_name }}</p>
+  <p>이메일 - {{ person.email }}</p>
 </main>
 {% endblock content %}

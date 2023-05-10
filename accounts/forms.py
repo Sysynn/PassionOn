@@ -21,14 +21,14 @@ class CustomAuthenticationForm(AuthenticationForm):
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
-        fields = ('username', 'password1', 'password2')
+        fields = ('username', 'password1', 'password2', 'profile_image',)
         
         
 class CustomUserChangeForm(UserChangeForm):
     password = None
     class Meta(UserChangeForm.Meta):
         model = get_user_model()
-        fields = ('first_name', 'last_name', 'email')
+        fields = ('first_name', 'last_name', 'email', 'profile_image',)
         
         
 class CustomPasswordChangeForm(PasswordChangeForm):

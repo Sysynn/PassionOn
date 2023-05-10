@@ -55,9 +55,10 @@ def signup(request):
         return redirect('accounts:temp')
         
     if request.method == 'POST':
-        register_form = CustomUserCreationForm(data=request.POST)
+        register_form = CustomUserCreationForm(data=request.POST, files=request.FILES)
         if register_form.is_valid():
             user = register_form.save()
+            # auth_login(request, user)
             # return redirect('clothes:index')
             return redirect('accounts:temp')
     else:
@@ -80,7 +81,8 @@ def delete(request, user_pk: int):
 def update(request):
     me = request.user
     if request.method == 'POST':
-        change_form = CustomUserChangeForm(instance=me, data=request.POST)
+        print(request.FILES)
+        change_form = CustomUserChangeForm(instance=me, data=request.POST, files=request.FILES)
         if change_form.is_valid():
             change_form.save()
             return redirect('accounts:temp')
