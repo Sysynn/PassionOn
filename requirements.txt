@@ -1,8 +1,12 @@
 asgiref==3.6.0
 Django==3.2.18
 django-appconf==1.0.5
+django-classy-tags==4.0.0
 django-extensions==3.2.1
 django-imagekit==4.1.0
+django-taggit==4.0.0
+django-taggit-templatetags2==1.6.1
+django-extensions==3.2.1
 pilkit==2.0
 Pillow==9.5.0
 pytz==2023.3

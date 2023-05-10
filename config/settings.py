@@ -32,9 +32,12 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     'accounts',
-    
+    'clothes'
+  
     'django_extensions',
     'imagekit',
+    'taggit',
+    'taggit_templatetags2',
                   
     'django.contrib.admin',
     'django.contrib.auth',

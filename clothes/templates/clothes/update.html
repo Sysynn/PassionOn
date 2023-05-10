@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <form {% url 'clothes:update' cloth.pk %} method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ cloth_form.as_p }}
+    {{ cloth_image_form.as_p }}
+    <button type="submit">업데이트</button>
+  </form>
+{% endblock %}
