@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>상품등록</h2>
+  <form {% url 'clothes:create' %} method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ cloth_form.as_p }}
+    {{ cloth_image_form.as_p }}
+    <button type="submit">상품등록</button>
+  </form>
+{% endblock %}
