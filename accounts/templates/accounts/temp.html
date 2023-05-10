@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<main class="container">
+  {% if request.user.is_authenticated %}
+  <form action="{% url 'accounts:logout' %}" method="post" class="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="">Logout</button>
+  </form>
+  <a href="{% url 'accounts:update' %}" class="">수정</a>
+  {% else %}
+  <a href="{% url 'accounts:login' %}" class="">
+    Login
+  </a>
+  <a href="{% url 'accounts:signup' %}" class="">Sign-Up</a>
+  {% endif %}
+  
+  {% for person in persons %}
+  <hr>
+  <div class="mb-3">
+    <a href="{% url 'accounts:profile' person %}" class="">{{person}}</a>
+  </div>
+  {% endfor %}
+</main>
+{% endblock content %}

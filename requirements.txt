@@ -6,6 +6,7 @@ django-extensions==3.2.1
 django-imagekit==4.1.0
 django-taggit==4.0.0
 django-taggit-templatetags2==1.6.1
+django-extensions==3.2.1
 pilkit==2.0
 Pillow==9.5.0
 pytz==2023.3
