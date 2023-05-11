@@ -25,11 +25,11 @@ class Cloth(models.Model):
     gender_choices = (('Male', '남'), ('Female', '여'), ('Unisex', '공용'),)
     gender = models.CharField(max_length=10, choices=gender_choices)
     
-    category_choices = (('outer', '아우터'), ('top', '상의'), ('bottom', '하의'), ('shoes', '신발'), ('cap', '모자'), ('accessories', '악세서리'))
+    category_choices = (('outer', '아우터'), ('top', '상의'), ('bottom', '하의'), ('cap', '모자'), ('accessories', '악세서리'))
     category = models.CharField(max_length=20, choices=category_choices)
 
-    size_choices = (('Small', 'S'), ('Medium', 'M'), ('Large', 'L'),)
-    size = models.CharField(max_length=10, choices=size_choices)
+    size_choices = (('Small', 'S'), ('Medium', 'M'), ('Large', 'L'), ('Free', 'free'))
+    size = models.CharField(max_length=15, choices=size_choices)
 
     tags = TaggableManager(blank=True)
 
