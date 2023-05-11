@@ -9,11 +9,39 @@
   {% if person.profile_image %}
   <img src="{{ person.profile_image.url }}" alt="" class="">
   {% else %}
-  <img src="{% static 'blank-profile.png' %}" alt="" class="">
+  <img src="{% static 'blank_profile.jpg' %}" alt="" class="">
   {% endif %}
 
   <p>이름 - {{ person.first_name }}</p>
   <p>성 - {{ person.last_name }}</p>
   <p>이메일 - {{ person.email }}</p>
+
+  <h3 class="text-warning">코디</h3>
+
+  {% if request.user == person %}
+  <h3 class="text-secondary">구매 이력</h3>
+  <table>
+    {% for cart in person.carts.all  %}
+    <tr>
+      <td>[{{ cart.brand }}]{{ cart.name }} - {{ cart.size }} | </td>
+      <td>{{ cart.price }}원</td>
+    </tr>
+    {% empty %}
+    <p>empty</p>
+    {% endfor %} 
+  </table>
+  <h3 class="text-primary">장바구니</h3>
+  <table>
+    {% for log in person.purchase_logs.all  %}
+    <tr>
+      <td>[{{ log.brand }}]{{ log.name }} - {{ log.size }} | </td>
+      <td>{{ log.price }}원</td>
+    </tr>
+    {% empty %}
+    <p>empty</p>
+    {% endfor %}
+  </table>
+  {% endif %}
+
 </main>
 {% endblock content %}
