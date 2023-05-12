@@ -23,5 +23,18 @@
     <a href="{% url 'accounts:profile' person %}" class="">{{person}}</a>
   </div>
   {% endfor %}
+
+  <form action="{% url 'accounts:add_cart' request.user 1 %}" method="post">
+    {% csrf_token %}
+    <input type="number" name="quantity" id="" value="1" max="10">
+    <button type="submit" class="">카트 생성</button>
+  </form>
+
+  <form action="{% url 'accounts:purchase' request.user 1 %}" method="post">
+    {% csrf_token %}
+    <input type="number" name="quantity" id="" value="1" max="10">
+    <button type="submit" class="">구매 이력 생성</button>
+  </form>
+
 </main>
 {% endblock content %}

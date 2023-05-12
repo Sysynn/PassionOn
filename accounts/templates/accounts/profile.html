@@ -19,23 +19,39 @@
   <h3 class="text-warning">코디</h3>
 
   {% if request.user == person %}
-  <h3 class="text-secondary">구매 이력</h3>
+  <h3 class="text-secondary">장바구니</h3>
   <table>
-    {% for cart in person.carts.all  %}
+    <p class="text-danger">{{person.carts.all}}</p>
+    {% for cart in carts %}
     <tr>
-      <td>[{{ cart.brand }}]{{ cart.name }} - {{ cart.size }} | </td>
-      <td>{{ cart.price }}원</td>
+      <td>ID={{cart.pk}} | </td>
+      <td>[{{ cart.cloth.brand }}]{{ cart.cloth.name }} - {{ cart.cloth.size }} | </td>
+      <td>{{ cart.cloth.price }}원 - {{cart.quantity}}개</td>
+      <td>
+        <form action="{% url 'accounts:delete_cart_item' request.user cart.pk %}" method="post" class="">
+          {% csrf_token %}
+          <button type="submit" class="">장바구니에서 삭제</button>
+        </form>
+      </td>
+      <td><p class="">지불금{{cart.item_cost}}</p></td>
     </tr>
     {% empty %}
     <p>empty</p>
     {% endfor %} 
   </table>
-  <h3 class="text-primary">장바구니</h3>
+  <h3 class="text-primary">구매 이력</h3>
   <table>
-    {% for log in person.purchase_logs.all  %}
+    {% for log in purchase_logs  %}
     <tr>
-      <td>[{{ log.brand }}]{{ log.name }} - {{ log.size }} | </td>
-      <td>{{ log.price }}원</td>
+      <td>ID={{log.pk}} | </td>
+      <td>[{{ log.cloth.brand }}]{{ log.cloth.name }} - {{ log.cloth.size }} | </td>
+      <td>{{ log.cloth.price }}원 - {{log.quantity}}개</td>
+      <td>
+        <form action="{% url 'accounts:delete_purchase_log' request.user log.pk %}" method="post" class="">
+          {% csrf_token %}
+          <button type="submit" class="">구매이력 삭제</button>
+        </form>
+      </td>
     </tr>
     {% empty %}
     <p>empty</p>

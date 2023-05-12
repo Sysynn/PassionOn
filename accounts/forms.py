@@ -31,14 +31,12 @@ class CustomUserCreationForm(UserCreationForm):
         )
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
-        fields = ('username', 'password1', 'password2', 'profile_image',)
+        fields = ('username', 'password1', 'password2',)
         labels = {
             'username': 'ID',
-            'profile_image': '프로필 사진',
         }
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
-            'profile_image': forms.ClearableFileInput(attrs={'class': 'form-control'})
         }
         
         
@@ -78,16 +76,4 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     
     class Meta:
         model = get_user_model()
-        fields = '__all__'
-        
-        
-class CartForm(forms.ModelForm):
-    class Meta:
-        model = Cart
-        fields = '__all__'
-
-
-class PurchaseLogForm(forms.ModelForm):
-    class Meta:
-        model = PurchaseLog
         fields = '__all__'
