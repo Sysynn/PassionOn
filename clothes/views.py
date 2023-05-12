@@ -38,6 +38,7 @@ def detail(request, cloth_pk):
     return render(request, 'clothes/detail.html', context)
 
 
+@login_required
 def create(request):
     if request.method == 'POST':
         cloth_form = ClothForm(request.POST, request.FILES)
@@ -67,6 +68,7 @@ def create(request):
     return render(request, 'clothes/create.html', context)
 
 
+@login_required
 def update(request, cloth_pk):
     cloth = Cloth.objects.get(pk=cloth_pk)
     cloth_image = ClothImage.objects.filter(cloth=cloth)
@@ -99,6 +101,7 @@ def update(request, cloth_pk):
     return render(request, 'clothes/update.html', context)
 
 
+@login_required
 def delete(request, cloth_pk):
     cloth = Cloth.objects.get(pk=cloth_pk)
     cloth_images = cloth.clothimage_set.all()

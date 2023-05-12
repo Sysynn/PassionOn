@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>리뷰작성</h2>
+  <form {% url 'reviews:review_create' cloth.pk %} method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ review_form.as_p }}
+    {{ review_image_form.as_p }}
+    <button type="submit">제출</button>
+  </form>
+{% endblock %}
