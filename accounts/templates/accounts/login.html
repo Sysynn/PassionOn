@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
-  <main class="container-fluid">
-    <h1 class="">Login</h1>
+<main class="container-fluid">
+  <h1 class="">Login</h1>
+  
+  <form action="{% url 'accounts:login' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="">로그인</button>
+  </form>
+  
+    {% load socialaccount %}
+    <a href="{% provider_login_url 'kakao' %}">카카오 소셜 로그인</a>
+    <a href="{% provider_login_url 'naver' %}">네이버 소셜 로그인</a>
 
-    <form action="{% url 'accounts:login' %}" method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="">로그인</button>
-    </form>
   </main>
 {% endblock content %}
