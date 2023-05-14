@@ -48,24 +48,10 @@ const largeImage = document.querySelector('.col-6 img');
 
 thumbnails.forEach(thumbnail => {
   thumbnail.addEventListener('mouseover', () => {
-    // largeImage.src = thumbnail.dataset.largeImage;
-    // largeImage.src = "{% static 'img/clothes/" + thumbnail.dataset.largeImage + "' %}";
-    // console.log('img/clothes/' + thumbnail.dataset.largeImage)
-    // console.log(largeImage)
-    largeImage.src = "{% static 'img/clothes/detail_2028326_4_500.jpg' %}?" + new Date().getTime();
-    console.log(largeImage)
-    largeImage.onload
-  });
-  thumbnail.addEventListener('mouseout', () => {
-    // largeImage.src = '2028326_2_500.jpg';
-    largeImage.src = "{% static 'img/clothes/2028326_2_500.jpg' %}";
-    console.log(largeImage)
-    largeImage.onload
+    largeImage.src = '/static/img/clothes/' + thumbnail.dataset.largeImage
   });
 });
 
 largeImage.addEventListener('mouseout', () => {
-  // largeImage.src = '2028326_2_500.jpg';
-  largeImage.src = "{% static 'img/clothes/2028326_2_500.jpg' %}";
-  console.log(largeImage)
+  largeImage.src = "/static/img/clothes/2028326_2_500.jpg";
 });
