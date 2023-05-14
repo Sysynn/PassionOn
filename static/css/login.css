@@ -1,0 +1,77 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.login-page {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.login-page__logo h1 {
+    font-family: 'Passion One', cursive;
+    margin-bottom: 10px;
+}
+.login-page__logo h4 {
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+
+.login-page__form {
+    margin-top: 20px;
+}
+
+.login-page__form label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.login-page__form input {
+    display: block;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.login-page__form button{
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    background-color: rgb(51, 51, 51);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-page__links {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.login-page__links a {
+    border-right: 1px solid lightgray;  /* 오른쪽에 얇은 검은색 선 추가 */
+    padding: 0 10px;  /* 패딩을 추가하여 선과 텍스트 사이에 공간 만들기 */
+}
+
+.login-page__links a:last-child {
+    border-right: none;  /* 마지막 링크의 오른쪽 선 제거 */
+}
+
+.login-page__sns-login button{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    color:rgb(51, 51, 51);
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    cursor: pointer;
+    
+}

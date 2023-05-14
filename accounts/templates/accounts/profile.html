@@ -9,7 +9,7 @@
   {% if person.profile_image %}
   <img src="{{ person.profile_image.url }}" alt="" class="">
   {% else %}
-  <img src="{% static 'blank_profile.jpg' %}" alt="" class="">
+  <img src="{% static 'img/common/blank_profile.jpg' %}" alt="" class="">
   {% endif %}
 
   <p>이름 - {{ person.first_name }}</p>
