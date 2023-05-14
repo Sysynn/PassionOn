@@ -1,18 +1,30 @@
 {% extends 'base.html' %}
+{% load static %}
+
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+{% endblock head %}
 
 {% block content %}
-<main class="container-fluid">
-  <h1 class="">Login</h1>
-  
-  <form action="{% url 'accounts:login' %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="">로그인</button>
-  </form>
-  
-    {% load socialaccount %}
-    <a href="{% provider_login_url 'kakao' %}">카카오 소셜 로그인</a>
-    <a href="{% provider_login_url 'naver' %}">네이버 소셜 로그인</a>
-
-  </main>
+<div class="login-page">
+    <div class="login-page__logo">
+        <h1>PASSION ON</h1>
+        <h4>Fashion your Passion</h4>
+    </div>
+    <form action="{% url 'accounts:login' %}" method="post" class="login-page__form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">로그인</button>
+    </form>
+    <div class="login-page__links">
+        <a href="#">이메일 가입</a>
+        <a href="#">이메일 찾기</a>
+        <a href="#">비밀번호 찾기</a>
+    </div>
+    <div class="login-page__sns-login">
+    <button class="naver-login">네이버로 로그인</button>
+    <button class="kakao-login">카카오톡으로 로그인</button>
+    </div>
+</div>
 {% endblock content %}

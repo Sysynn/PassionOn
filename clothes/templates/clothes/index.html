@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/carousel.css' %}">  
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Passion+One&display=swap" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+<div class="my-carousel">
+    <div class="my-carousel-inner">
+        <input class="my-carousel-open" type="radio" id="my-carousel-1" name="my-carousel" aria-hidden="true" hidden="" checked="checked">
+        <div class="my-carousel-item">
+            <div class="slide1-text1">SPRING SALE!</div>
+            <div class="slide1-text2">자세한 정보는 페이지를 확인하세요!</div>
+            <img src="https://images.unsplash.com/photo-1530543787849-128d94430c6b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80">
+        </div>
+        <input class="my-carousel-open" type="radio" id="my-carousel-2" name="my-carousel" aria-hidden="true" hidden="">
+        <div class="my-carousel-item">
+            <img src="https://images.unsplash.com/photo-1508615039623-a25605d2b022?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80">
+        </div>
+        <input class="my-carousel-open" type="radio" id="my-carousel-3" name="my-carousel" aria-hidden="true" hidden="">
+        <div class="my-carousel-item">
+            <div class="slide3-text1">NEW JEANS!</div>
+            <div class="slide3-text2">홍대 어떻게 가요?</div>
+            <img src="https://images.unsplash.com/photo-1652432977576-0695667efedc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80">
+        </div>
+        <label for="my-carousel-3" class="my-carousel-control prev control-1">‹</label>
+        <label for="my-carousel-2" class="my-carousel-control next control-1">›</label>
+        <label for="my-carousel-1" class="my-carousel-control prev control-2">‹</label>
+        <label for="my-carousel-3" class="my-carousel-control next control-2">›</label>
+        <label for="my-carousel-2" class="my-carousel-control prev control-3">‹</label>
+        <label for="my-carousel-1" class="my-carousel-control next control-3">›</label>
+        <ol class="my-carousel-indicators">
+            <li>
+                <label for="my-carousel-1" class="my-carousel-bullet">•</label>
+            </li>
+            <li>
+                <label for="my-carousel-2" class="my-carousel-bullet">•</label>
+            </li>
+            <li>
+                <label for="my-carousel-3" class="my-carousel-bullet">•</label>
+            </li>
+        </ol>
+    </div>
+</div>
+{% endblock content %}

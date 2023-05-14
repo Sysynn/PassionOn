@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 
-{% block content %}
 
+{% block content %}
+<h1 class="">{{category_subject}}</h1>
+
+{% for cloth in clothes  %}
+{{cloth.name}}
+{% endfor %}
 {% endblock content %}

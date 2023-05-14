@@ -1,14 +1,22 @@
 {% extends 'base.html' %}
+{% load static %}
+
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/signup.css' %}">
+{% endblock head %}
 
 
 {% block content %}
-<main class="container">
-  <h1 class="">회원가입</h1>
-
-  <form action="{% url 'accounts:signup' %}" method="post" class="" enctype="multipart/form-data">
+<div class="signup-page">
+  <div class="signup-page__logo">
+    <h1>PASSION ON</h1>
+    <h4>Fashion your Passion</h4>
+  </div>
+  <form action="{% url 'accounts:signup' %}" method="post" class="signup-page__form">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="">회원 가입</button>
+    <button type="submit">회원가입</button>
   </form>
-</main>
+</div>
 {% endblock content %}

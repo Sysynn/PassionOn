@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/detail.css' %}">
+{% endblock head %}
+
+
+{% block content %}
+<div class="container">
+  <div class="row d-flex justify-content-center overflow-x-scroll" style="min-width: 750px;">
+    <div class="col-6 col-sm-6 col-md-5 border border-dark text-center overflow-hidden p-0">
+      <img src="{% static 'img/clothes/2028326_2_500.jpg' %}" style="object-fit:cover;" class="mb-3" width="100%" alt="">
+      <div class="thumbnail-container border border-dark">
+        <img src="{% static 'img/clothes/2028326_2_500-s.jpg' %}" alt="Thumbnail Image" class="thumbnail" data-large-image="detail_2028326_17_500.jpg">
+      </div>
+      <div class="thumbnail-container border border-dark">
+        <img src="{% static 'img/clothes/detail_2028326_17_500-s.jpg' %}" alt="Thumbnail Image" class="thumbnail" data-large-image="detail_2028326_17_500.jpg">
+      </div>
+      <div class="thumbnail-container border border-dark">
+        <img src="{% static 'img/clothes/detail_2028326_18_500-s.jpg' %}" alt="Thumbnail Image" class="thumbnail" data-large-image="detail_2028326_18_500.jpg">
+      </div>
+      <div class="thumbnail-container border border-dark">
+        <img src="{% static 'img/clothes/detail_2028326_4_500-s.jpg' %}" alt="Thumbnail Image" class="thumbnail" data-large-image="detail_2028326_4_500.jpg">
+      </div>
+    </div>
+
+    <div class="col-4 col-sm-4 col-md-4 border border-dark">
+      <div class="m-3">
+      <p>무신사 스탠다드</p>
+      <p>스트레이트 데님 팬츠 [크림]</p>STRAIGHT DENIM PANTS [CREAM]
+      <p>49,900원</p>
+      <div class="dropdown">
+        <button class="btn btn-outline-primary dropdown-toggle mb-4" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          옵션을 선택하세요
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">28</a></li>
+          <li><a class="dropdown-item disabled" href="#">30 (품절)</a></li>
+          <li><a class="dropdown-item" href="#">31</a></li>
+          <li><a class="dropdown-item" href="#">32</a></li>              
+        </ul>
+      </div>
+      <button class="btn btn-outline-primary btn-sm me-2" onclick="decrease()">-</button>
+        <input class="me-2" type="number" id="numInput" value="1" min="1" oninput="checkValue(); updateTotal();" style="width: 50px;">
+        <button class="btn btn-outline-primary btn-sm" onclick="increase()">+</button>
+      
+      <p id="totalAmount" class="mt-3"></p>
+
+      <div>
+        <b>Tag</b>
+        <div class="mt-2 mb-4">
+          <button type="button" class="btn btn-outline-dark btn-sm">청바지</button>
+          <button type="button" class="btn btn-outline-dark btn-sm">워싱진</button>
+          <button type="button" class="btn btn-outline-dark btn-sm">일자바지</button>
+          <button type="button" class="btn btn-outline-dark btn-sm">레귤러핏</button>              
+        </div>      
+      </div>
+
+      <p class="text-danger">전 상품 무료배송</p>
+      <div class="d-flex justify-content-center">
+        <button class="btn btn-dark btn-lg align-content-center">
+          바로구매
+        </button>
+        <button class="btn btn-outline-dark btn-lg align-content-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+          </svg>
+        </button>
+        <button class="btn btn-outline-dark btn-lg align-content-center">            
+          <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+  <div class="mt-3 d-flex justify-content-center">
+    <div class="col-9 col-sm-9 col-md-9">
+      <ul class="nav nav-tabs mt-4">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">상세정보</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">후기</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">상품문의</a>
+        </li>          
+      </ul>
+      <div class="text-center mt-4">
+        <img src="https://image.musinsa.com/images/prd_img/2021081812070300000022384.jpg" alt=""></div>
+      <div id='review'></div>
+        <div class="border border-dark border-start-0 border-end-0 d-flex justify-content-start">
+          <div class="fs-4 my-1 ms-3"><b>구매후기 (**개)</b></div>
+        </div>
+        <div class="d-flex col-9 mt-3 bg-body-tertiary mx-3">
+          <div class="flex-column col-3 text-center">
+            <div class="mx-auto my-2 image_container overflow-hidden">
+              <img src="{% static 'img/clothes/2028326_2_500-s.jpg' %} " alt="" width="100%">                
+            </div>
+            <p class="small text-secondary">옵션: 30</p>
+          </div>
+          <div class="flex-column">
+            <div class="d-flex">
+              <p>작성자</p>
+              <p class="ms-2">별점</p>
+            </div>
+            <div>
+              핏 좋고 무난합니다.
+            </div>
+        </div>
+        </div>
+
+
+
+      <div class="mt-5" id='QNA'></div>
+        <div class="border border-dark border-start-0 border-end-0 d-flex justify-content-start">
+          <div class="fs-4 my-1 ms-3"><b>상품문의</b></div>              
+        </div>
+        <div class="d-flex text-center">
+          <p class="col">번호</p>
+          <p class="col">답변여부</p>
+          <p class="col-5">내용</p>
+          <p class="col">작성자</p>
+          <p class="col">작성일자</p>
+
+        </div>
+    </div>
+  </div>
+
+<script src="{% static 'javascript/detail.js' %}"></script>
+{% endblock content %}

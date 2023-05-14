@@ -21,23 +21,28 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(
-        # label='', 
-        widget=forms.PasswordInput(attrs={'class' : 'form-control'}),
-        help_text=password_validation.password_validators_help_text_html(),
+        label='비밀번호*', 
+        widget=forms.PasswordInput(attrs={'placeholder' : '영문과 숫자를 조합해주세요'}),
+        # help_text=password_validation.password_validators_help_text_html(),
+        help_text=None,
         )
     password2 = forms.CharField(
-        # label='', 
-        widget=forms.PasswordInput(attrs={'class' : 'form-control'}),
+        label='비밀번호 확인*', 
+        widget=forms.PasswordInput(attrs={'placeholder' : '비밀번호를 확인해주세요'}),
         )
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
         fields = ('username', 'password1', 'password2',)
         labels = {
-            'username': 'ID',
+            'username': '아이디*',
         }
         widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'placeholder' : '아이디를 입력해주세요'}),
         }
+        help_texts = {
+            'username': None,
+        }
+        
         
         
 class CustomUserChangeForm(UserChangeForm):

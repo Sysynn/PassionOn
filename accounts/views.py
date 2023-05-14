@@ -8,11 +8,11 @@ from .models import Cart, PurchaseLog
 from django.db.models import Count, Sum
 
 # Create your views here.
-def temp(request):
-    context = {
-        'persons': get_user_model().objects.all()
-    }
-    return render(request, 'accounts/temp.html', context)
+# def temp(request):
+#     context = {
+#         'persons': get_user_model().objects.all()
+#     }
+#     return render(request, 'accounts/temp.html', context)
 
 
 def profile(request, username: str):
@@ -31,15 +31,13 @@ def profile(request, username: str):
     
 def login(request):
     if request.user.is_authenticated:
-        # return redirect('clothes:index')
-        return redirect('accounts:temp')
+        return redirect('clothes:index')
     
     if request.method == 'POST':
         login_form = CustomAuthenticationForm(request, request.POST)
         if login_form.is_valid():
             auth_login(request, login_form.get_user())
-            # return redirect('clothes:index')
-            return redirect('accounts:temp')
+            return redirect('clothes:index')
     else:
         login_form = CustomAuthenticationForm()
         
@@ -52,22 +50,19 @@ def login(request):
 def logout(request):
     if request.user:
         auth_logout(request)
-    # return redirect('clothes:index')
-    return redirect('accounts:temp')
+    return redirect('clothes:index')
 
 
 def signup(request):
     if request.user.is_authenticated:
-        # return redirect('clothes:index')
-        return redirect('accounts:temp')
+        return redirect('clothes:index')
         
     if request.method == 'POST':
         register_form = CustomUserCreationForm(data=request.POST, files=request.FILES)
         if register_form.is_valid():
             user = register_form.save()
-            # auth_login(request, user)
-            # return redirect('clothes:index')
-            return redirect('accounts:temp')
+            auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            return redirect('clothes:index')
     else:
         register_form = CustomUserCreationForm()
         
@@ -84,7 +79,7 @@ def delete(request, user_pk: int):
         person.delete()
         auth_logout(request)
         
-    return redirect('accounts:temp')
+    return redirect('clothes:index')
 
 
 @login_required
@@ -95,7 +90,7 @@ def update(request):
         change_form = CustomUserChangeForm(instance=me, data=request.POST, files=request.FILES)
         if change_form.is_valid():
             change_form.save()
-            return redirect('accounts:temp')
+            return redirect('accounts:profile', request.user)
     else:
         change_form = CustomUserChangeForm(instance=me)
     
@@ -113,7 +108,7 @@ def change_password(request):
         if change_pwd_form.is_valid():
             change_pwd_form.save()
             update_session_auth_hash(request, request.user)
-            return redirect('accounts:temp')
+            return redirect('accounts:profile', request.user)
     else:
         change_pwd_form = CustomPasswordChangeForm(user=me)
         
@@ -133,8 +128,7 @@ def add_cart(request, username: str, cloth_pk: int):
     else:
         Cart.objects.create(user=me, cloth=cloth)
         
-    # return redirect('clothes:detail', cloth_pk)
-    return redirect('accounts:temp')
+    return redirect('clothes:detail', cloth_pk)
 
 
 @login_required
@@ -148,8 +142,7 @@ def purchase(request, username: str, cloth_pk: int):
         PurchaseLog.objects.create(user=me, cloth=cloth)
     
     # 물건을 구매하고 결제한 후에 이동할 창 구체적인 명세 필요
-    # return redirect('clothes:index')
-    return redirect('accounts:temp')
+    return redirect('clothes:index')
 
 
 @login_required
