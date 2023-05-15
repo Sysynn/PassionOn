@@ -17,7 +17,7 @@ class Cloth(models.Model):
 
 
     thumbnail = ProcessedImageField(upload_to='', 
-                                    blank=True, processors=[ResizeToFill(300,300)],
+                                    blank=True, processors=[ResizeToFill(400,400)],
                                     format='JPEG',
                                     options={'quality': 100})
     
@@ -43,6 +43,35 @@ class Cloth(models.Model):
 class ClothImage(models.Model):
     cloth = models.ForeignKey(to=Cloth, on_delete=models.CASCADE)
     image = ProcessedImageField(upload_to='', blank=True,
-                                processors=[ResizeToFill(300,300)],
+                                processors=[ResizeToFill(250,300)],
                                 format='JPEG',
                                 options={'quality': 100})
+
+
+class Recommend(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    clothes = models.ManyToManyField(Cloth, related_name='recommendations')
+    title = models.CharField(max_length=30)
+    content = models.CharField(max_length=200)
+    hits = models.PositiveIntegerField(default=0)
+    tags = TaggableManager(blank=True)
+
+    thumbnail = ProcessedImageField(upload_to='', 
+                                    blank=True, processors=[ResizeToFill(700,900)],
+                                    format='JPEG',
+                                    options={'quality': 100})
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+    
+# 굳이 여러 이미지를 넣을 필요는 없겠죠?
+# class RecommendImage(models.Model):
+#     recommend = models.ForeignKey(Recommend, on_delete=models.CASCADE)
+#     image = ProcessedImageField(upload_to='', blank=True,
+#                                 processors=[ResizeToFill(500,500)],
+#                                 format='JPEG',
+#                                 options={'quality': 100})
+

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{{ recommend.title }}</h2>
+  <p>{{ recommend.created_at }} | 조회 {{ recommend.hits }}</p>
+  <p>내용: {{ recommend.content }}</p>
+  <p>태그: 
+    {% for tag in recommend.tags.all %}
+    # {{ tag.name }}
+    {% if not forloop.last %}, 
+    {% endif %}
+    {% endfor %}</p>
+  <img src="{{ recommend.thumbnail.url }}" alt="썸네일">
+
+  <h3>코디 상품</h3>
+  <ul>
+    {% for cloth in recommend.clothes.all %}
+      <li>
+        {% if cloth.thumbnail %}
+          <a href="{% url 'clothes:detail' cloth.pk %}">
+            <img src="{{ cloth.thumbnail.url }}" alt="상품 썸네일">
+          </a>
+        {% endif %}
+        <p>
+          <a href="{% url 'clothes:detail' cloth.pk %}">{{ cloth.brand }}</a>
+        </p>
+        <p>
+          <a href="{% url 'clothes:detail' cloth.pk %}"><strong>{{ cloth.name }}</strong></a>
+        </p>
+        <p>
+          {{ cloth.price }}원
+        </p>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
