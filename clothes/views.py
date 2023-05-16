@@ -229,9 +229,6 @@ def recommend_create(request):
     return render(request, 'clothes/recommend_create.html', context)
 
 
-
-
-
 def recommend_delete(request, recommend_pk):
     recommend = Recommend.objects.get(pk=recommend_pk)
     if request.user == recommend.user:
@@ -239,3 +236,10 @@ def recommend_delete(request, recommend_pk):
     return redirect('clothes:index') # 일단 인덱스로 보냄 / recommend에 대한 index 페이지 필요한가?
 
 
+def shop(request):
+    clothes = Cloth.objects.all()
+
+    context = {
+        'clothes' : clothes,
+    }
+    return render(request, 'clothes/shop.html', context)

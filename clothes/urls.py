@@ -15,5 +15,7 @@ urlpatterns = [
     path('category/<str:subject>/', views.category, name='category'),
     path('recommend_create/', views.recommend_create, name='recommend_create'),
     path('recommend_detail/<int:recommend_pk>', views.recommend_detail, name='recommend_detail'),
-    path('<int:recommend_pk>/delete/', views.recommend_delete, name='recommend_delete'),    
+    path('<int:recommend_pk>/delete/', views.recommend_delete, name='recommend_delete'),
+
+    path('shop/', views.shop, name='shop'),
 ]

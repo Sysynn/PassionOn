@@ -36,10 +36,9 @@
               <div class="material-symbols-outlined" id="search-icon">search</div>
           </form>
           <div class="gnb-list">
-              <a href="#">HOME</a>
-              <a href="#">STYLE</a>
-              <a href="#">SHOP</a>
-              <a href="#">MY</a>
+              <a href="{% url 'clothes:index' %}">HOME</a>
+              <a href="{% url 'clothes:shop' %}">SHOP</a>
+              <a href="{% url 'accounts:profile' request.user %}">MY</a>
           </div>
       </div>
   </div>
@@ -56,8 +55,7 @@
 
 <div id="mySidebar" class="sidebar">
 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-<a href="#">HOME</a>
-<a href="#">STYLE</a>
-<a href="#">SHOP</a>
-<a href="#">MY</a>
+<a href="{% url 'clothes:index' %}">HOME</a>
+<a href="{% url 'clothes:shop' %}">SHOP</a>
+<a href="{% url 'accounts:profile' request.user %}">MY</a>
 </div>
