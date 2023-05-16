@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>추천 코디등록</h2>
+<form {% url 'clothes:recommend_create' %} method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ recommend_form.as_p }}
+  <button type="submit">등록</button>
+</form>
+{% endblock content %}

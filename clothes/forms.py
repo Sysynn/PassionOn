@@ -1,5 +1,5 @@
 from django import forms
-from .models import Cloth, ClothImage
+from .models import Cloth, ClothImage, Recommend
 from taggit.managers import TaggableManager
 from taggit.forms import TagField, TagWidget
 
@@ -25,3 +25,23 @@ class ClothImageForm(forms.ModelForm):
     class Meta:
         model = ClothImage
         fields = ('image', )
+
+
+class RecommendForm(forms.ModelForm):
+    title = forms.CharField(label='코디명', widget=forms.TimeInput(attrs={'class' : 'form-control',}))
+    content = forms.CharField(label='내용', widget=forms.Textarea(attrs={'class' : 'form-control',}))
+    tags = forms.CharField(label='코디 태그', widget=TagWidget(attrs={'class': 'form-control',}))
+    thumbnail = forms.ImageField(label='썸네일 이미지', widget=forms.ClearableFileInput(attrs={'class': 'form-control'})),
+    clothes = forms.ModelMultipleChoiceField(queryset=Cloth.objects.all(), label='상품 정보', widget=forms.CheckboxSelectMultiple())
+
+    class Meta:
+        model = Recommend
+        fields = ('title', 'content', 'tags', 'thumbnail', 'clothes',)
+
+
+# class RecommendImageForm(forms.ModelForm):
+#     image = forms.ImageField(label=' 이미지 업로드', widget=forms.ClearableFileInput(attrs={'class': 'form-control', 'multiple': True,},), required=False,)
+
+#     class Meta:
+#         model = RecommendImage
+#         fields = ('image', )

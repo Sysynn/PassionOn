@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
-from .models import Cloth, ClothImage
-from .forms import ClothForm, ClothImageForm
+from .models import Cloth, ClothImage, Recommend
+from .forms import ClothForm, ClothImageForm, RecommendForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator
@@ -151,15 +151,15 @@ def search(request):
     return render(request, 'clothes/index.html', context)
 
 
-# 일단은 보류(tag에 따라 분류할 것인가?)
-# def tagged_clothes(request, tag_pk):
-#     tag = Tag.objects.get(pk=tag_pk)
-#     clothes = Cloth.objects.filter(tags=tag)
-#     context = {
-#         'tag': tag,
-#         'clothes': clothes,
-#     }
-#     return render(request, 'clothes/tagged.html', context)
+
+def tagged_clothes(request, tag_pk):
+    tag = Tag.objects.get(pk=tag_pk)
+    clothes = Cloth.objects.filter(tags=tag)
+    context = {
+        'tag': tag,
+        'clothes': clothes,
+    }
+    return render(request, 'clothes/tagged.html', context)
 
 
 def likes(request, cloth_pk):
@@ -184,3 +184,58 @@ def category(request, subject):
         'category_subject': subject,
     }
     return render(request, 'clothes/category.html', context)
+
+
+def recommend_detail(request, recommend_pk):
+    recommend = Recommend.objects.get(pk=recommend_pk)
+    tags = recommend.tags.all()
+
+    session_key = 'cloth_{}_hits'.format(recommend_pk)
+    if not request.session.get(session_key):
+        recommend.hits += 1
+        recommend.save()
+        request.session[session_key] = True
+
+    context = {
+        'recommend': recommend,
+        'tags': tags,
+    }
+    return render(request, 'clothes/recommend_detail.html', context)
+
+
+def recommend_create(request):
+    if request.method == 'POST':
+        recommend_form = RecommendForm(request.POST, request.FILES)
+        tags = request.POST.get('tags', '').split(',')
+
+        if recommend_form.is_valid():
+            recommend = recommend_form.save(commit=False)
+            recommend.user = request.user
+            recommend.save()
+
+            for tag in tags:
+                tag = tag.strip()
+                if tag:
+                    recommend.tags.add(tag)
+
+            recommend.clothes.set(recommend_form.cleaned_data['clothes'])
+            
+            return redirect('clothes:recommend_detail', recommend.pk)
+    else:
+        recommend_form = RecommendForm()
+    context = {
+        'recommend_form': recommend_form,
+    }
+    return render(request, 'clothes/recommend_create.html', context)
+
+
+
+
+
+def recommend_delete(request, recommend_pk):
+    recommend = Recommend.objects.get(pk=recommend_pk)
+    if request.user == recommend.user:
+        recommend.delete()
+    return redirect('clothes:index') # 일단 인덱스로 보냄 / recommend에 대한 index 페이지 필요한가?
+
+
