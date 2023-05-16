@@ -6,14 +6,38 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.db.models import Q
+from django.db.models import Q, Avg, Count, F, Value
+from django.db.models.functions import Coalesce
+from django.db.models import FloatField
 from taggit.models import Tag
+from accounts.models import PurchaseLog
+
 
 # Create your views here.
 def index(request):
     clothes = Cloth.objects.all()
+    new_clothes = Cloth.objects.order_by('-pk')[:12]
+    
+    purchases_cnt = PurchaseLog.objects.count()
+    likes_cnt = 0
+    for cloth in clothes:
+        likes_cnt += cloth.like_users.count()
+        
+    REVIEW_WEIGHT = 1
+    PURCHASE_WEIGHT = 5
+    LIKE_WEIGHT = 5
+    
+    hot_clothes = Cloth.objects.annotate(
+        review_score = Coalesce(Avg('review__rating') * REVIEW_WEIGHT, Value(0.0), output_field=FloatField()),
+        purchase_score = Coalesce(Count('purchaselog__id', distinct=True) * PURCHASE_WEIGHT / purchases_cnt, Value(0.0), output_field=FloatField()),
+        like_score = Coalesce(Count('like_users', distinct=True) * LIKE_WEIGHT / likes_cnt, Value(0.0), output_field=FloatField()),
+        score = F('review_score') + F('purchase_score') + F('like_score'),
+        ).order_by('-score')[:16]  
+    
     context = {
-        'clothes': clothes,
+        # 'clothes': clothes,
+        'new_clothes': new_clothes,
+        'hot_clothes': hot_clothes,
     }
     return render(request, 'clothes/index.html', context)
 

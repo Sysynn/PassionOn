@@ -78,9 +78,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                
-                # `allauth` needs
-                'django.template.context_processors.request',
             ],
         },
     },
@@ -164,4 +161,4 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 
 ACCOUNT_LOGOUT_ON_GET = True
 
-LOGIN_REDIRECT_URL = 'accounts:temp'
+LOGIN_REDIRECT_URL = 'clothes:index'

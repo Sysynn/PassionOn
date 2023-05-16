@@ -23,8 +23,11 @@
         <a href="#">비밀번호 찾기</a>
     </div>
     <div class="login-page__sns-login">
-    <button class="naver-login">네이버로 로그인</button>
-    <button class="kakao-login">카카오톡으로 로그인</button>
+    {% load socialaccount %}
+    <a href="{% provider_login_url 'naver' %}" class="naver-login">네이버로 로그인</a>
+    <button class="naver-login"></button>
+    <a href="{% provider_login_url 'kakao' %}">카카오톡으로 로그인</a>
+    <button class="kakao-login"></button>
     </div>
 </div>
 {% endblock content %}
