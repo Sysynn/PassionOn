@@ -29,7 +29,7 @@ class Cloth(models.Model):
     category = models.CharField(max_length=20, choices=category_choices)
 
     size_choices = (('Small', 'S'), ('Medium', 'M'), ('Large', 'L'), ('Free', 'free'))
-    size = models.CharField(max_length=15, choices=size_choices)
+    size = models.CharField(max_length=15, choices=size_choices, default='free')
 
     tags = TaggableManager(blank=True)
 
