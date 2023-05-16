@@ -24,10 +24,13 @@
     </div>
     <div class="login-page__sns-login">
     {% load socialaccount %}
-    <a href="{% provider_login_url 'naver' %}" class="naver-login">네이버로 로그인</a>
-    <button class="naver-login"></button>
-    <a href="{% provider_login_url 'kakao' %}">카카오톡으로 로그인</a>
-    <button class="kakao-login"></button>
+    <a href="{% provider_login_url 'naver' %}" class="">
+        <button class="naver-login">네이버로 로그인</button>
+    </a>
+    
+    <a href="{% provider_login_url 'kakao' %}">
+        <button class="kakao-login">카카오톡으로 로그인</button>
+    </a>
     </div>
 </div>
 {% endblock content %}
