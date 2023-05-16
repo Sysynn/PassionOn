@@ -21,10 +21,15 @@ def profile(request, username: str):
     carts = Cart.objects.filter(user=person)
     purchases = PurchaseLog.objects.filter(user=person)
     
+    change_form = CustomUserChangeForm()
+    if request.user == person:
+        change_form = CustomUserChangeForm(instance=request.user)
+
     context = {
         'person': person,   
         'carts': carts,
         'purchase_logs': purchases,
+        'form' : change_form,
     }
     return render(request, 'accounts/profile.html', context)
     

@@ -33,7 +33,7 @@ def index(request):
         like_score = Coalesce(Count('like_users', distinct=True) * LIKE_WEIGHT / likes_cnt, Value(0.0), output_field=FloatField()),
         score = F('review_score') + F('purchase_score') + F('like_score'),
         ).order_by('-score')[:16]  
-    
+
     context = {
         # 'clothes': clothes,
         'new_clothes': new_clothes,
