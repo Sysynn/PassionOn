@@ -2,62 +2,104 @@
 {% load static %}
 
 
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock head %}
+
+
 {% block content %}
-<main class="container">
-  <h1 class="">{{ person.username }}의 프로필</h1>
-
-  {% if person.profile_image %}
-  <img src="{{ person.profile_image.url }}" alt="" class="">
-  {% else %}
-  <img src="{% static 'img/common/blank_profile.jpg' %}" alt="" class="">
-  {% endif %}
-
-  <p>이름 - {{ person.first_name }}</p>
-  <p>성 - {{ person.last_name }}</p>
-  <p>이메일 - {{ person.email }}</p>
-
-  <h3 class="text-warning">코디</h3>
-
-  {% if request.user == person %}
-  <h3 class="text-secondary">장바구니</h3>
-  <table>
-    <p class="text-danger">{{person.carts.all}}</p>
-    {% for cart in carts %}
-    <tr>
-      <td>ID={{cart.pk}} | </td>
-      <td>[{{ cart.cloth.brand }}]{{ cart.cloth.name }} - {{ cart.cloth.size }} | </td>
-      <td>{{ cart.cloth.price }}원 - {{cart.quantity}}개</td>
-      <td>
-        <form action="{% url 'accounts:delete_cart_item' request.user cart.pk %}" method="post" class="">
-          {% csrf_token %}
-          <button type="submit" class="">장바구니에서 삭제</button>
+<div class="main-container">
+    <div class="profile-page">
+        <div class="profile-page__image">
+            {% if request.user.profile_image %}
+            <img src="{{ request.user.profile_image.url }}" alt="Empty Profile Image" id="profileImage">
+            {% else %}
+            <img src="{% static 'img/common/blank_profile.jpg' %}" alt="Empty Profile Image" id="profileImage">
+            {% endif %}
+        </div>
+        {% if request.user == person %}
+        {# 본인의 프로필 페이지인 경우 - 프로필 정보 업데이트 #}
+        <form action="{% url 'accounts:update' %}" method="post" enctype="multipart/form-data" class="profile-page__form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <a href="{% url 'accounts:change_password' %}" class="container-fluid btn btn-outline-primary">패스워드 변경</a>
+            <button type="submit">프로필 업데이트</button>
         </form>
-      </td>
-      <td><p class="">지불금{{cart.item_cost}}</p></td>
-    </tr>
-    {% empty %}
-    <p>empty</p>
-    {% endfor %} 
-  </table>
-  <h3 class="text-primary">구매 이력</h3>
-  <table>
-    {% for log in purchase_logs  %}
-    <tr>
-      <td>ID={{log.pk}} | </td>
-      <td>[{{ log.cloth.brand }}]{{ log.cloth.name }} - {{ log.cloth.size }} | </td>
-      <td>{{ log.cloth.price }}원 - {{log.quantity}}개</td>
-      <td>
-        <form action="{% url 'accounts:delete_purchase_log' request.user log.pk %}" method="post" class="">
-          {% csrf_token %}
-          <button type="submit" class="">구매이력 삭제</button>
-        </form>
-      </td>
-    </tr>
-    {% empty %}
-    <p>empty</p>
-    {% endfor %}
-  </table>
-  {% endif %}
-
-</main>
+        {% else %}
+        {# 본인의 프로필 페이지가 아닌 경우 #}
+        <div class="d-flex justify-content-evenly">
+            <div class="d-flex flex-column">
+                <small class="text-secondary">성</small>
+                <p class="fw-bold">{{ person.last_name }}</p>
+            </div>
+            <div class="d-flex flex-column">
+                <small class="text-secondary">이름</small>
+                <p class="fw-bold">{{ person.first_name }}</p>
+            </div>
+        </div>
+        <small class="text-secondary">이메일</small>
+        <p class="fw-bold">{{ person.email }}</p>
+        {% endif %}
+    </div>
+    <div class="right-div">
+        {% if request.user == person %}
+        <section>장바구니</section>
+        <!-- 장고 입력 예시  -->
+        <div class="cart">
+            {% for item in carts %}
+            <div class="cart-item">
+                {% if item.cloth.thumbnail %}
+                <img src="{{ item.cloth.thumbnail.url }}" alt="product_image">
+                {% else %}
+                <img src="#" alt="No Product Image" class="">
+                {% endif %}
+                <p>{{ item.cloth.name }}</p>
+                <p>{{ item.cloth.price }}</p>
+                <p>{{ item.quantity }}</p>
+                {# item_cost = 상품가격 * 장바구니에 담은 상품 갯수 #}
+                <p>{{ item.item_cost }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        <section>구매 내역</section>
+        <div class="purchase-history">
+            <div class="purchase-history">
+                <div class="history-item">
+                    <p>상품명</p>
+                    <p>가격</p>
+                    <p>개수</p>
+                    <p>총 가격</p>
+                </div>
+                {% for item in purchase_logs %}
+                <div class="history-item">
+                    {% if item.cloth.thumbnail %}
+                    <img src="{{ item.cloth.thumbnail.url }}" alt="product_image">
+                    {% else %}
+                    <img src="#" alt="No Product Image" class="">
+                    {% endif %}
+                    <p>{{ item.cloth.name }}</p>
+                    <p>{{ item.cloth.price }}</p>
+                    <p>{{ item.quantity }}</p>
+                    {# item_cost = 상품가격 * 당시 구매한 상품 갯수 #}
+                    <p>{{ item.item_cost }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <section>피드</section>
+        <div class="feed">
+            {% for feed in feeds %}
+            <div class="feed-item">
+                <div class="feed-image">
+                    <img src="{{ feed.image_url }}" alt="feed_image">
+                </div>
+                <div class="feed-content">
+                    <p>{{ feed.content }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock content %}

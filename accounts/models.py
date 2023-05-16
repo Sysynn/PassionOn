@@ -35,3 +35,7 @@ class PurchaseLog(models.Model):
     # Cloth에서 추가
     # size = models.CharField(max_length=10)
     bought_at = models.DateTimeField(auto_now_add=True)
+    
+    @property
+    def item_cost(self):
+        return self.cloth.price * self.quantity
