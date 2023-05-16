@@ -51,13 +51,13 @@
                 {% if item.cloth.thumbnail %}
                 <img src="{{ item.cloth.thumbnail.url }}" alt="product_image">
                 {% else %}
-                <img src="#" alt="No Product Image" class="">
+                <img src="https://kream-phinf.pstatic.net/MjAyMzA0MjBfMTA3/MDAxNjgxOTUwNTQzOTUw.GGUbCBnzhYtn2SHkkScWTBcAkMBgqo-v9up7fl1NMF4g.0LnLOSLzPxVGuaSHp32IIYJC6Z5R8RS28k9bJUbf368g.JPEG/a_83d66b09c0d3426a85a5a7c73eb247a7.jpg?type=m_webp" alt="No Product Image" class="">
                 {% endif %}
                 <p>{{ item.cloth.name }}</p>
-                <p>{{ item.cloth.price }}</p>
-                <p>{{ item.quantity }}</p>
+                <p>{{ item.cloth.price }}원</p>
+                <p>{{ item.quantity }}개</p>
                 {# item_cost = 상품가격 * 장바구니에 담은 상품 갯수 #}
-                <p>{{ item.item_cost }}</p>
+                <p>{{ item.item_cost }}원</p>
             </div>
             {% endfor %}
         </div>
@@ -72,18 +72,13 @@
                 </div>
                 {% for item in purchase_logs %}
                 <div class="history-item">
-                    {% if item.cloth.thumbnail %}
-                    <img src="{{ item.cloth.thumbnail.url }}" alt="product_image">
-                    {% else %}
-                    <img src="#" alt="No Product Image" class="">
-                    {% endif %}
                     <p>{{ item.cloth.name }}</p>
-                    <p>{{ item.cloth.price }}</p>
-                    <p>{{ item.quantity }}</p>
+                    <p>{{ item.cloth.price }}원</p>
+                    <p>{{ item.quantity }}개</p>
                     {# item_cost = 상품가격 * 당시 구매한 상품 갯수 #}
-                    <p>{{ item.item_cost }}</p>
-                    {% endfor %}
+                    <p>{{ item.item_cost }}원</p>
                 </div>
+                {% endfor %}
             </div>
         </div>
         {% endif %}
