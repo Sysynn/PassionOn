@@ -6,13 +6,13 @@ from .models import Cart, PurchaseLog
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(
-        label = 'ID',
+        label = '아이디',
         widget = forms.TextInput(
             attrs = {}
         )
     )
     password = forms.CharField(
-        label = 'pwd',
+        label = '비밀번호',
         widget = forms.PasswordInput(
             attrs = {}
         )
@@ -66,16 +66,16 @@ class CustomUserChangeForm(UserChangeForm):
         
 class CustomPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(
-        # label='', 
+        label='기존 비밀번호', 
         widget=forms.PasswordInput(attrs={'class' : 'form-control'}),
         )
     new_password1 = forms.CharField(
-        # label='', 
+        label='새 비밀번호', 
         widget=forms.PasswordInput(attrs={'class' : 'form-control'}),
         help_text=password_validation.password_validators_help_text_html(),
         )
     new_password2 = forms.CharField(
-        # label='', 
+        label='새 비밀번호 확인', 
         widget=forms.PasswordInput(attrs={'class' : 'form-control'}),
         )
     

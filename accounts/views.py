@@ -37,10 +37,20 @@ def login(request):
         login_form = CustomAuthenticationForm(request, request.POST)
         if login_form.is_valid():
             auth_login(request, login_form.get_user())
+            
+            prev_url = request.session.get('prev_url')
+            # 이전 페이지의 URL 정보가 있으면 해당 URL로 리다이렉트합니다.
+            if prev_url:
+                # 이전 페이지의 URL 정보를 삭제합니다.
+                del request.session['prev_url']
+                return redirect(prev_url)
+            
             return redirect('clothes:index')
     else:
         login_form = CustomAuthenticationForm()
-        
+    
+    request.session['prev_url'] = request.META.get('HTTP_REFERER')
+    
     context = {
         'form': login_form,
     }
@@ -50,6 +60,16 @@ def login(request):
 def logout(request):
     if request.user:
         auth_logout(request)
+        
+        request.session['prev_url'] = request.META.get('HTTP_REFERER')
+        
+        prev_url = request.session.get('prev_url')
+        # 이전 페이지의 URL 정보가 있으면 해당 URL로 리다이렉트합니다.
+        if prev_url:
+            # 이전 페이지의 URL 정보를 삭제합니다.
+            del request.session['prev_url']
+            return redirect(prev_url)
+    
     return redirect('clothes:index')
 
 
@@ -62,10 +82,20 @@ def signup(request):
         if register_form.is_valid():
             user = register_form.save()
             auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            
+            prev_url = request.session.get('prev_url')
+            # 이전 페이지의 URL 정보가 있으면 해당 URL로 리다이렉트합니다.
+            if prev_url:
+                # 이전 페이지의 URL 정보를 삭제합니다.
+                del request.session['prev_url']
+                return redirect(prev_url)
+            
             return redirect('clothes:index')
     else:
         register_form = CustomUserCreationForm()
-        
+    
+    request.session['prev_url'] = request.META.get('HTTP_REFERER')
+    
     context = {
         'form': register_form,
     }
