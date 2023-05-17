@@ -32,7 +32,7 @@
     </div>
   {% endif %}
 
-  <div class="row d-flex justify-content-center overflow-x-scroll" style="min-width: 750px;">
+  <div class="row d-flex justify-content-around overflow-x-scroll" style="min-width: 750px;">
     <div class="col-6 col-sm-6 col-md-5 text-center overflow-hidden p-0">
       
       {% if cloth.thumbnail %}
@@ -138,7 +138,7 @@
           <a class="nav-link active" aria-current="page" href="#">상세정보</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#review">후기</a>
+          <a class="nav-link text-dark" href="#review">후기</a>
         </li>
         {% comment %} <li class="nav-item">
           <a class="nav-link" href="#">상품문의</a>
@@ -224,9 +224,11 @@
       {% if not forloop.last %}
       <hr>
       {% else %}
-      <hr class="border-0 py-3">
+      <hr class="border-0 py-5">
       {% endif %}
-
+      
+      {% empty %}
+      <hr class="border-0 py-5">
       {% endfor %}
 
       {% comment %} <div class="mt-5" id='QNA'></div>
