@@ -28,23 +28,10 @@ class ClothImageForm(forms.ModelForm):
 
 
 class RecommendForm(forms.ModelForm):
-    title = forms.CharField(
-        label='코디명',
-        widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 700px'}),
-    )
-    content = forms.CharField(
-        label='내용',
-        widget=forms.Textarea(attrs={'class': 'form-control', 'style': 'width: 700px; height: 200px'}),
-    )
-    tags = forms.CharField(
-        label='코디 태그',
-        widget=TagWidget(attrs={'class': 'form-control', 'style': 'width: 700px'}),
-    )
-    clothes = forms.ModelMultipleChoiceField(
-        queryset=Cloth.objects.all(),
-        label='상품 정보',
-        widget=forms.CheckboxSelectMultiple(),
-    )
+    title = forms.CharField(label='코디명', widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 700px'}),)
+    content = forms.CharField(label='내용',widget=forms.Textarea(attrs={'class': 'form-control', 'style': 'width: 700px; height: 200px'}),)
+    tags = forms.CharField(label='코디 태그',widget=TagWidget(attrs={'class': 'form-control', 'style': 'width: 700px'}),)
+    clothes = forms.ModelMultipleChoiceField(queryset=Cloth.objects.all(),label='상품 정보',widget=forms.CheckboxSelectMultiple(),)
 
     class Meta:
         model = Recommend
@@ -52,11 +39,7 @@ class RecommendForm(forms.ModelForm):
 
 
 class RecommendImageForm(forms.ModelForm):
-    image = forms.ImageField(
-        label='스타일 이미지 업로드',
-        widget=forms.ClearableFileInput(attrs={'class': 'form-control', 'style': 'width: 700px;'}),
-        required=False,
-    )
+    image = forms.ImageField(label='스타일 이미지 업로드', widget=forms.ClearableFileInput(attrs={'class': 'form-control', 'multiple': True,},), required=False,)
     
     class Meta:
         model = RecommendImage
@@ -72,7 +55,7 @@ class ClothDescriptionImageForm(forms.ModelForm):
         
 
 class CommentForm(forms.ModelForm):
-    content = forms.CharField(label='댓글', widget=forms.TextInput(attrs={'class': 'form-control',}))
+    content = forms.CharField(label='댓글', widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Comment
