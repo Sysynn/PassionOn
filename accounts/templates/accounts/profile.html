@@ -73,13 +73,15 @@
                     <p>총 가격</p>
                 </div>
                 {% for item in purchase_logs %}
-                <div class="history-item">
-                    <p>{{ item.cloth.name }}</p>
-                    <p>{{ item.cloth.price }}원</p>
-                    <p>{{ item.quantity }}개</p>
-                    {# item_cost = 상품가격 * 당시 구매한 상품 갯수 #}
-                    <p>{{ item.item_cost }}원</p>
-                </div>
+                <a href="{% url 'clothes:detail' item.cloth.pk %}">
+                    <div class="history-item">
+                        <p>{{ item.cloth.name }}</p>
+                        <p>{{ item.cloth.price }}원</p>
+                        <p>{{ item.quantity }}개</p>
+                        {# item_cost = 상품가격 * 당시 구매한 상품 갯수 #}
+                        <p>{{ item.item_cost }}원</p>
+                    </div>
+                </a>
                 {% endfor %}
             </div>
         </div>

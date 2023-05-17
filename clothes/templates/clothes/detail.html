@@ -28,7 +28,6 @@
     </div>
 
     <div class="col-4 col-sm-4 col-md-4 border border-dark">
-      <div class="m-3">
 
       <p class="text-secondary">{{ cloth.brand }}</p>
       <p class="fw-bold">{{ cloth.name }}</p>
@@ -60,41 +59,50 @@
       </div>
 
       <p class="text-danger">전 상품 무료배송</p>
-      <div class="d-flex justify-content-center">
-        <button class="btn btn-dark btn-lg align-content-center">
-          바로구매
-        </button>
+      <div class="d-flex flex-column justify-content-center">
+        <form action="{% url 'accounts:purchase' cloth.pk %}" method="post" class="">
+          {% csrf_token %}
+          <input type="hidden" name="quantity" value="1" id="purchaseQuantityInput">
+          {% comment %} <input type="hidden" name="size" value="free"> {% endcomment %}
+          <button class="btn btn-dark btn-lg align-content-center mb-2 w-100">
+            바로구매
+          </button>
+        </form>
 
-        {% if request.user.is_authenticated %}
-          <form id="likes-form" data-cloth-id="{{ cloth.pk }}" class="index--heart">
+        <div class="d-flex justify-content-evenly mb-2">
+          {% if request.user.is_authenticated %}
+          <form id="likes-form" data-cloth-id="{{ cloth.pk }}" class="index--heart flex-grow-1">
             {% csrf_token %}
             {% if request.user in cloth.like_users.all %}
-              <button class="btn btn-outline-dark btn-lg align-content-center" type="submit" style="margin-left: 10px">
-                <i class="bi bi-suit-heart-fill" id="cloth-heart"></i>
-              </button>
+            <button class="btn btn-outline-dark btn-lg align-content-center w-100" type="submit">
+              <i class="bi bi-suit-heart-fill" id="cloth-heart"></i>
+            </button>
             {% else %}
-              <button class="btn btn-outline-dark btn-lg align-content-center" type="submit" style="margin-left: 10px">
-                <i class="bi bi-suit-heart" id="cloth-heart"></i>
-              </button>
+            <button class="btn btn-outline-dark btn-lg align-content-center w-100" type="submit">
+              <i class="bi bi-suit-heart" id="cloth-heart"></i>
+            </button>
             {% endif %}
           </form>
-        {% else %}
+          {% else %}
           <button class="btn btn-outline-dark btn-lg align-content-center" style="width: 50px; margin-left: 10px" disabled>
             <i class="bi bi-suit-heart" id="cloth-heart"></i>
           </button>
-        {% endif %}
-        <form action="{% url 'accounts:add_cart' cloth.pk %}" method="post" class="">
-          {% csrf_token %}
-          <input type="hidden" name="quantity" value="1" id="quantityInput">
-          {% comment %} <input type="hidden" name="size" value="free"> {% endcomment %}
-          <button class="btn btn-outline-dark btn-lg align-content-center h-100">            
-            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-              <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-            </svg>
-          </button>
-        </form>
+          {% endif %}
+
+          <form action="{% url 'accounts:add_cart' cloth.pk %}" method="post" class="flex-grow-1">
+            {% csrf_token %}
+            <input type="hidden" name="quantity" value="1" id="quantityInput">
+            {% comment %} <input type="hidden" name="size" value="free"> {% endcomment %}
+            <button class="btn btn-outline-dark btn-lg align-content-center w-100">            
+              <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+              </svg>
+            </button>
+          </form>
+        </div>
+
       </div>
-      </div>
+
     </div>
     </div>
   </div>
@@ -203,36 +211,5 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script>
-    const form = document.querySelector('#likes-form');
-    const heartIcon = document.querySelector('#cloth-heart');
-
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-      const clothId = event.target.dataset.clothId;
-      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-      axios({
-        method: 'post',
-        url: `/clothes/${clothId}/likes/`,
-        headers: { 'X-CSRFToken': csrftoken },
-      })
-        .then((response) => {
-          const isLiked = response.data.is_liked;
-          const likesCount = response.data.likes_count;
-          if (isLiked) {
-            heartIcon.classList.remove('bi-suit-heart');
-            heartIcon.classList.add('bi-suit-heart-fill');
-          } else {
-            heartIcon.classList.remove('bi-suit-heart-fill');
-            heartIcon.classList.add('bi-suit-heart');
-          }
-          const likesCountElement = document.querySelector('#likes-count');
-          likesCountElement.textContent = likesCount;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
-  </script>
+  <script src="{% static 'javascript/detail.js' %}"></script>
 {% endblock content %}
