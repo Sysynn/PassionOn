@@ -3,6 +3,8 @@ from django.conf import settings
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 from taggit.managers import TaggableManager
+from django.utils import timezone
+from datetime import timedelta,datetime
 import os
 
 # Create your models here.
@@ -56,22 +58,65 @@ class Recommend(models.Model):
     hits = models.PositiveIntegerField(default=0)
     tags = TaggableManager(blank=True)
 
-    thumbnail = ProcessedImageField(upload_to='', 
-                                    blank=True, processors=[ResizeToFill(700,900)],
-                                    format='JPEG',
-                                    options={'quality': 100})
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
     
-# 굳이 여러 이미지를 넣을 필요는 없겠죠?
-# class RecommendImage(models.Model):
-#     recommend = models.ForeignKey(Recommend, on_delete=models.CASCADE)
-#     image = ProcessedImageField(upload_to='', blank=True,
-#                                 processors=[ResizeToFill(500,500)],
-#                                 format='JPEG',
-#                                 options={'quality': 100})
+
+    @property
+    def created_string(self):
+        if self.created_at is None:
+            return False
+
+        time = datetime.now(tz=timezone.utc) - self.created_at
+
+        if time < timedelta(minutes=1):
+            return '방금 전'
+        elif time < timedelta(hours=1):
+            return str(int(time.seconds / 60)) + '분 전'
+        elif time < timedelta(days=1):
+            return str(int(time.seconds / 3600)) + '시간 전'
+        elif time < timedelta(days=7):
+            time = datetime.now(tz=timezone.utc).date() - self.created_at.date()
+            return str(time.days) + '일 전'
+        else:
+            return False
+        
+
+class RecommendImage(models.Model):
+    recommend = models.ForeignKey(Recommend, on_delete=models.CASCADE)
+    image = ProcessedImageField(upload_to='', blank=True,
+                                processors=[ResizeToFill(700,900)],
+                                format='JPEG',
+                                options={'quality': 100})
+
+
+class Comment(models.Model):
+    recommend = models.ForeignKey(Recommend, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def created_string(self):
+        if self.created_at is None:
+            return False
+
+        time = datetime.now(tz=timezone.utc) - self.created_at
+
+        if time < timedelta(minutes=1):
+            return '방금 전'
+        elif time < timedelta(hours=1):
+            return str(int(time.seconds / 60)) + '분 전'
+        elif time < timedelta(days=1):
+            return str(int(time.seconds / 3600)) + '시간 전'
+        elif time < timedelta(days=7):
+            time = datetime.now(tz=timezone.utc).date() - self.created_at.date()
+            return str(time.days) + '일 전'
+        else:
+            return False
+    
 

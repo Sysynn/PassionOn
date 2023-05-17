@@ -1,43 +1,19 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
-from .models import Cloth, ClothImage, Recommend
-from .forms import ClothForm, ClothImageForm, RecommendForm
+from .models import Cloth, ClothImage, Recommend, RecommendImage, Comment
+from .forms import ClothForm, ClothImageForm, RecommendForm, RecommendImageForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.db.models import Q, Avg, Count, F, Value
-from django.db.models.functions import Coalesce
-from django.db.models import FloatField
+from django.db.models import Q
 from taggit.models import Tag
-from accounts.models import PurchaseLog
-
 
 # Create your views here.
 def index(request):
     clothes = Cloth.objects.all()
-    new_clothes = Cloth.objects.order_by('-pk')[:12]
-    
-    purchases_cnt = PurchaseLog.objects.count()
-    likes_cnt = 0
-    for cloth in clothes:
-        likes_cnt += cloth.like_users.count()
-        
-    REVIEW_WEIGHT = 1
-    PURCHASE_WEIGHT = 5
-    LIKE_WEIGHT = 5
-    
-    hot_clothes = Cloth.objects.annotate(
-        review_score = Coalesce(Avg('review__rating') * REVIEW_WEIGHT, Value(0.0), output_field=FloatField()),
-        purchase_score = Coalesce(Count('purchaselog__id', distinct=True) * PURCHASE_WEIGHT / purchases_cnt, Value(0.0), output_field=FloatField()),
-        like_score = Coalesce(Count('like_users', distinct=True) * LIKE_WEIGHT / likes_cnt, Value(0.0), output_field=FloatField()),
-        score = F('review_score') + F('purchase_score') + F('like_score'),
-        ).order_by('-score')[:16]  
-    
     context = {
-        # 'clothes': clothes,
-        'new_clothes': new_clothes,
-        'hot_clothes': hot_clothes,
+        'clothes': clothes,
     }
     return render(request, 'clothes/index.html', context)
 
@@ -188,6 +164,7 @@ def category(request, subject):
 
 def recommend_detail(request, recommend_pk):
     recommend = Recommend.objects.get(pk=recommend_pk)
+    recommend_images = RecommendImage.objects.filter(recommend=recommend)
     tags = recommend.tags.all()
 
     session_key = 'cloth_{}_hits'.format(recommend_pk)
@@ -198,17 +175,21 @@ def recommend_detail(request, recommend_pk):
 
     context = {
         'recommend': recommend,
+         'recommend_images': recommend_images,
         'tags': tags,
     }
     return render(request, 'clothes/recommend_detail.html', context)
 
 
+@login_required
 def recommend_create(request):
     if request.method == 'POST':
-        recommend_form = RecommendForm(request.POST, request.FILES)
+        recommend_form = RecommendForm(request.POST)
+        recommend_image_form = RecommendImageForm(request.POST, request.FILES)
+        files = request.FILES.getlist('image')
         tags = request.POST.get('tags', '').split(',')
 
-        if recommend_form.is_valid():
+        if recommend_form.is_valid() and recommend_image_form.is_valid():
             recommend = recommend_form.save(commit=False)
             recommend.user = request.user
             recommend.save()
@@ -220,22 +201,92 @@ def recommend_create(request):
 
             recommend.clothes.set(recommend_form.cleaned_data['clothes'])
             
+            for file in files:
+                RecommendImage.objects.create(recommend=recommend, image=file)
+
             return redirect('clothes:recommend_detail', recommend.pk)
     else:
         recommend_form = RecommendForm()
+        recommend_image_form = RecommendImageForm()
     context = {
         'recommend_form': recommend_form,
+        'recommend_image_form': recommend_image_form,
     }
     return render(request, 'clothes/recommend_create.html', context)
 
 
 
+@login_required
+def recommend_update(request, recommend_pk):
+    recommend = Recommend.objects.get(pk=recommend_pk)
+    recommend_images = RecommendImage.objects.filter(recommend=recommend)
+
+    if request.method == 'POST':
+        recommend_form = RecommendForm(request.POST, instance=recommend)
+        recommend_image_form = RecommendImageForm(request.POST, request.FILES)
+
+        if recommend_form.is_valid() and recommend_image_form.is_valid():
+            recommend = recommend_form.save(commit=False)
+            recommend.user = request.user
+            recommend.save()
+
+            tags = request.POST.get('tags', '').split(',')
+            recommend.tags.clear()
+
+            for tag in tags:
+                tag = tag.strip()
+                if tag:
+                    recommend.tags.add(tag)
+
+            recommend.clothes.set(recommend_form.cleaned_data['clothes'])
+
+            files = request.FILES.getlist('image')
+            RecommendImage.objects.filter(recommend=recommend).delete()
+
+            for file in files:
+                RecommendImage.objects.create(recommend=recommend, image=file)
+
+            return redirect('clothes:recommend_detail', recommend.pk)
+    else:
+        recommend_form = RecommendForm(instance=recommend)
+        recommend_image_form = RecommendImageForm()
+
+    context = {
+        'recommend': recommend,
+        'recommend_form': recommend_form,
+        'recommend_image_form': recommend_image_form,
+    }
+    return render(request, 'clothes/recommend_update.html', context)
 
 
+@login_required
 def recommend_delete(request, recommend_pk):
     recommend = Recommend.objects.get(pk=recommend_pk)
     if request.user == recommend.user:
         recommend.delete()
-    return redirect('clothes:index') # 일단 인덱스로 보냄 / recommend에 대한 index 페이지 필요한가?
+    return redirect('clothes:index')
 
 
+@login_required
+def comments_create(request, recommend_pk):
+    recommend = Recommend.objects.get(pk=recommend_pk)
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
+        comment.recommend = recommend
+        comment.user = request.user
+        comment.save()
+        return redirect('clothes:recommend_detail', recommend_pk)
+    context = {
+        'recommend': recommend,
+        'comment_form': comment_form,
+    }
+    return render(request, 'clothes/recommend_detail.html', context)
+
+
+@login_required
+def comments_delete(request, recommend_pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    if comment.user == request.user:
+        comment.delete()
+    return redirect('clothes:recommend_detail', recommend_pk)

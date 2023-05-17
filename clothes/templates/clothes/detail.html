@@ -4,6 +4,7 @@
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/detail.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 {% endblock head %}
 
 
@@ -63,16 +64,34 @@
         <button class="btn btn-dark btn-lg align-content-center">
           바로구매
         </button>
-        <button class="btn btn-outline-dark btn-lg align-content-center">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-          </svg>
-        </button>
-        <button class="btn btn-outline-dark btn-lg align-content-center">            
-          <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-          </svg>
-        </button>
+        {% if request.user.is_authenticated %}
+          <form id="likes-form" data-cloth-id="{{ cloth.pk }}" class="index--heart">
+            {% csrf_token %}
+            {% if request.user in cloth.like_users.all %}
+              <button class="btn btn-outline-dark btn-lg align-content-center" type="submit" style="margin-left: 10px">
+                <i class="bi bi-suit-heart-fill" id="cloth-heart"></i>
+              </button>
+            {% else %}
+              <button class="btn btn-outline-dark btn-lg align-content-center" type="submit" style="margin-left: 10px">
+                <i class="bi bi-suit-heart" id="cloth-heart"></i>
+              </button>
+            {% endif %}
+          </form>
+        {% else %}
+          <button class="btn btn-outline-dark btn-lg align-content-center" style="width: 50px; margin-left: 10px" disabled>
+            <i class="bi bi-suit-heart" id="cloth-heart"></i>
+          </button>
+        {% endif %}
+        <form action="{% url 'accounts:add_cart' request.user.username cloth.pk %}" method="POST" id="cart-form" style="display: flex; align-items: center;">
+          {% csrf_token %}
+          <button class="btn btn-outline-dark btn-lg align-content-center" type="submit" style="margin-left: 10px">
+            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+              카트 <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+          </button>
+          <input type="number" name="quantity" value="1" min="1" class="form-control" style="width: 50px; margin-left: 10px">
+        </form>
+      </div>
       </div>
     </div>
     </div>
@@ -133,5 +152,37 @@
     </div>
   </div>
 
-<script src="{% static 'javascript/detail.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const form = document.querySelector('#likes-form');
+    const heartIcon = document.querySelector('#cloth-heart');
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const clothId = event.target.dataset.clothId;
+      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+      axios({
+        method: 'post',
+        url: `/clothes/${clothId}/likes/`,
+        headers: { 'X-CSRFToken': csrftoken },
+      })
+        .then((response) => {
+          const isLiked = response.data.is_liked;
+          const likesCount = response.data.likes_count;
+          if (isLiked) {
+            heartIcon.classList.remove('bi-suit-heart');
+            heartIcon.classList.add('bi-suit-heart-fill');
+          } else {
+            heartIcon.classList.remove('bi-suit-heart-fill');
+            heartIcon.classList.add('bi-suit-heart');
+          }
+          const likesCountElement = document.querySelector('#likes-count');
+          likesCountElement.textContent = likesCount;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    });
+  </script>
 {% endblock content %}
