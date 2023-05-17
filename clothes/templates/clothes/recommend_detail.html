@@ -9,8 +9,12 @@
     # {{ tag.name }}
     {% if not forloop.last %}, 
     {% endif %}
-    {% endfor %}</p>
-  <img src="{{ recommend.thumbnail.url }}" alt="썸네일">
+    {% endfor %}
+  </p>
+  
+  {% for recommend_image in recommend_images %}
+    <img src="{{ recommend_image.image.url }}" alt="이미지">
+  {% endfor %}
 
   <h3>코디 상품</h3>
   <ul>
@@ -33,4 +37,25 @@
       </li>
     {% endfor %}
   </ul>
+  {% if recommend.user == request.user %}
+    <a href="{% url 'clothes:recommend_delete' recommend.pk %}">삭제</a>
+  {% endif %}
+  
+  <form action="{% url 'clothes:comments_create' recommend.pk %}" method="POST">
+    {% csrf_token %}
+    {{ comment_form.content }}
+    <button type="submit" class="btn btn-primary">댓글 작성</button>
+  </form>
+  
+  <!-- 댓글 목록 -->
+  {% for comment in recommend.comment_set.all %}
+    <div class="comment">
+      <p>{{ comment.content }}</p>
+      <p>{{ comment.created_string }}</p>
+      {% if comment.user == request.user %}
+        <!-- 댓글 삭제 링크 -->
+        <a href="{% url 'clothes:comments_delete' recommend.pk comment.pk %}">삭제</a>
+      {% endif %}
+    </div>
+  {% endfor %}
 {% endblock %}
