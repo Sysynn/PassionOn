@@ -181,7 +181,7 @@ def purchase(request, cloth_pk: int):
     else:
         PurchaseLog.objects.create(user=me, cloth=cloth)
     
-    return redirect('clothes:index')
+    return redirect('accounts:profile', request.user)
 
 
 @login_required

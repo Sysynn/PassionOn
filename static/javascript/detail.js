@@ -27,8 +27,6 @@ function increase() {
 
 function checkValue() {
   var input = document.getElementById('numInput');
-  var quantityInput = document.getElementById('quantityInput')
-  quantityInput.value = input.value
   if (input.value < 1) {
     input.value = 1;
   }
@@ -39,12 +37,14 @@ function updateTotal() {
   // var selectedProduct = document.querySelector('.dropdown-toggle').textContent.trim();
   var productSize = document.getElementById('clothSize').textContent
   var quantityInput = document.getElementById('quantityInput')
+  var purchaseQuantityInput = document.getElementById('purchaseQuantityInput')
   var price = document.getElementById('clothesPrice').textContent;
   var total = price * parseFloat(input.value);
   if (isNaN(total)) {
     total = 0;
   }
   quantityInput.value = input.value
+  purchaseQuantityInput.value = input.value
   document.getElementById('totalAmount').innerHTML = "사이즈 : " + productSize + " " + "수량 : " + input.value + " / 총 상품금액: " + total.toLocaleString('ko-KR') + "원";
 }
 
@@ -72,3 +72,37 @@ thumbnails.forEach(thumbnail => {
 //   largeImage.src = '/static/img/clothes/detail_2028326_17_500-s.jpg';
 //   console.log(largeImage.src)
 // });
+
+
+// Like axios
+const form = document.querySelector('#likes-form');
+    const heartIcon = document.querySelector('#cloth-heart');
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const clothId = event.target.dataset.clothId;
+      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+      axios({
+        method: 'post',
+        url: `/clothes/${clothId}/likes/`,
+        headers: { 'X-CSRFToken': csrftoken },
+      })
+        .then((response) => {
+          const isLiked = response.data.is_liked;
+          const likesCount = response.data.likes_count;
+          if (isLiked) {
+            heartIcon.classList.remove('bi-suit-heart');
+            heartIcon.classList.add('bi-suit-heart-fill');
+          } else {
+            heartIcon.classList.remove('bi-suit-heart-fill');
+            heartIcon.classList.add('bi-suit-heart');
+          }
+          // 좋아요 수 js
+          // const likesCountElement = document.querySelector('#likes-count');
+          // likesCountElement.textContent = likesCount;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    });

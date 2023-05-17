@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from .models import Cloth, ClothImage, Recommend, ClothDescriptionImage
 from reviews.models import Review, ReviewImage
+from accounts.models import PurchaseLog
 from .models import Cloth, ClothImage, Recommend, RecommendImage, Comment
 from .forms import ClothForm, ClothImageForm, RecommendForm, RecommendImageForm, CommentForm, ClothDescriptionImageForm
 from django.contrib.auth.decorators import login_required
@@ -10,6 +11,7 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.db.models import Q, Avg, Count, F, Value
 from django.db.models.functions import Coalesce
+from django.forms import FloatField
 from taggit.models import Tag
 
 # Create your views here.
