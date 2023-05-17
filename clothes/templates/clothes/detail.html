@@ -11,7 +11,7 @@
 {% block content %}
 <div class="container">
   <div class="row d-flex justify-content-center overflow-x-scroll" style="min-width: 750px;">
-    <div class="col-6 col-sm-6 col-md-5 border border-dark text-center overflow-hidden p-0">
+    <div class="col-6 col-sm-6 col-md-5 text-center overflow-hidden p-0">
       
       {% if cloth.thumbnail %}
       <img src="{{ cloth.thumbnail.url }}" style="object-fit:cover;" class="mb-3" width="100%" alt="">
@@ -20,14 +20,14 @@
       {% endif %}
 
       {% for cloth_image in cloth_images %}
-      <div class="thumbnail-container border border-dark">
+      <div class="thumbnail-container">
         <img src="{{ cloth_image.image.url }}" alt="Clothes Image" class="thumbnail" data-large-image="{{ cloth_image.image.url }}" data-thumbnail-image="{{ cloth.thumbnail.url }}">
       </div>
       {% endfor %}
       
     </div>
 
-    <div class="col-4 col-sm-4 col-md-4 border border-dark">
+    <div class="col-4 col-sm-4 col-md-4">
 
       <p class="text-secondary">{{ cloth.brand }}</p>
       <p class="fw-bold">{{ cloth.name }}</p>
@@ -138,7 +138,7 @@
 
 
       <div id='review'></div>
-      <div class="border border-dark border-start-0 border-end-0">
+      <div class="border border-dark border-top-0 border-start-0 border-end-0">
         <div class="fs-4 my-1 ms-3 d-flex justify-content-between">
           <div>
             <b>구매후기 ({{ cloth.review_set.count }}개)</b>
@@ -148,7 +148,50 @@
           <div><a href="{% url 'reviews:review_create' cloth.pk %}" class="btn btn-dark">리뷰 작성</a></div>
           {% endif %}
         </div>
-      </div>
+      </div>     
+
+      <!--    리뷰 레이아웃에 약간 변동이 있습니다아아아    -->
+      
+      <div class="d-flex col-12 mt-3 mx-auto">
+              <div class="flex-column col-3 text-center">
+                <div class="mx-auto my-2 image_container">
+                  <img src="2028326_2_500-s.jpg" alt="">                
+                </div>
+                <p class="small text-secondary">옵션: 30</p>
+              </div>
+              
+              <div class="flex-column col-9">
+                <div class="me-3 d-flex justify-content-end">
+                  <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                      <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                    </svg>
+                  </div>
+                  <div class="mx-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                      <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <p><b>작성자</b></p>
+                  <p class="ms-2">별점</p>
+                </div>
+                <div>
+                  핏 좋고 무난합니다.
+                </div>
+                
+              </div>
+            </div>
+            <hr>
+      
+      <!--    사항은 위와 같습니다아아(송구함에 떠내려감)  -->
 
       {% for review in reviews %}
       <div class="d-flex col-10 mt-3 bg-body-tertiary">
@@ -196,7 +239,7 @@
       {% endfor %}
 
       {% comment %} <div class="mt-5" id='QNA'></div>
-        <div class="border border-dark border-start-0 border-end-0 d-flex justify-content-start">
+        <div class="border border-dark border-top-0 border-start-0 border-end-0 d-flex justify-content-start">
           <div class="fs-4 my-1 ms-3"><b>상품문의</b></div>              
         </div>
         <div class="d-flex text-center">
