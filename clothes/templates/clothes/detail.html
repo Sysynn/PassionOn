@@ -4,14 +4,13 @@
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/detail.css' %}">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 {% endblock head %}
 
 
 {% block content %}
 <div class="container">
   <div class="row d-flex justify-content-center overflow-x-scroll" style="min-width: 750px;">
-    <div class="col-6 col-sm-6 col-md-5 border border-dark text-center overflow-hidden p-0">
+    <div class="col-6 col-sm-6 col-md-5 text-center overflow-hidden p-0">
       
       {% if cloth.thumbnail %}
       <img src="{{ cloth.thumbnail.url }}" style="object-fit:cover;" class="mb-3" width="100%" alt="">
@@ -20,14 +19,14 @@
       {% endif %}
 
       {% for cloth_image in cloth_images %}
-      <div class="thumbnail-container border border-dark">
+      <div class="thumbnail-container">
         <img src="{{ cloth_image.image.url }}" alt="Clothes Image" class="thumbnail" data-large-image="{{ cloth_image.image.url }}" data-thumbnail-image="{{ cloth.thumbnail.url }}">
       </div>
       {% endfor %}
       
     </div>
 
-    <div class="col-4 col-sm-4 col-md-4 border border-dark">
+    <div class="col-4 col-sm-4 col-md-4">
       <div class="m-3">
 
       <p>{{ cloth.brand }}</p>
@@ -59,29 +58,15 @@
       </div>
 
       <p class="text-danger">전 상품 무료배송</p>
-      <div class="d-flex justify-content-center">
+      <div class="d-flex">
         <button class="btn btn-dark btn-lg align-content-center">
           바로구매
         </button>
-
-        {% if request.user.is_authenticated %}
-          <form id="likes-form" data-cloth-id="{{ cloth.pk }}" class="index--heart">
-            {% csrf_token %}
-            {% if request.user in cloth.like_users.all %}
-              <button class="btn btn-outline-dark btn-lg align-content-center" type="submit" style="margin-left: 10px">
-                <i class="bi bi-suit-heart-fill" id="cloth-heart"></i>
-              </button>
-            {% else %}
-              <button class="btn btn-outline-dark btn-lg align-content-center" type="submit" style="margin-left: 10px">
-                <i class="bi bi-suit-heart" id="cloth-heart"></i>
-              </button>
-            {% endif %}
-          </form>
-        {% else %}
-          <button class="btn btn-outline-dark btn-lg align-content-center" style="width: 50px; margin-left: 10px" disabled>
-            <i class="bi bi-suit-heart" id="cloth-heart"></i>
-          </button>
-        {% endif %}
+        <button class="btn btn-outline-dark btn-lg ms-2 me-2 align-content-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+          </svg>
+        </button>
         <form action="{% url 'accounts:add_cart' cloth.pk %}" method="post" class="">
           {% csrf_token %}
           <input type="hidden" name="quantity" value="1" id="quantityInput">
@@ -92,7 +77,6 @@
             </svg>
           </button>
         </form>
-      </div>
       </div>
     </div>
     </div>
@@ -153,37 +137,5 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script>
-    const form = document.querySelector('#likes-form');
-    const heartIcon = document.querySelector('#cloth-heart');
-
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-      const clothId = event.target.dataset.clothId;
-      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-      axios({
-        method: 'post',
-        url: `/clothes/${clothId}/likes/`,
-        headers: { 'X-CSRFToken': csrftoken },
-      })
-        .then((response) => {
-          const isLiked = response.data.is_liked;
-          const likesCount = response.data.likes_count;
-          if (isLiked) {
-            heartIcon.classList.remove('bi-suit-heart');
-            heartIcon.classList.add('bi-suit-heart-fill');
-          } else {
-            heartIcon.classList.remove('bi-suit-heart-fill');
-            heartIcon.classList.add('bi-suit-heart');
-          }
-          const likesCountElement = document.querySelector('#likes-count');
-          likesCountElement.textContent = likesCount;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
-  </script>
+<script src="{% static 'javascript/detail.js' %}"></script>
 {% endblock content %}
