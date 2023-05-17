@@ -15,8 +15,10 @@ class Cloth(models.Model):
     price = models.DecimalField(blank=True, max_digits=10, decimal_places=0)
     hits = models.PositiveIntegerField(default=0)
 
+    def clothes_image_path(instance, filename):
+        return f'clothes/{instance.name}/{filename}'
 
-    thumbnail = ProcessedImageField(upload_to='', 
+    thumbnail = ProcessedImageField(upload_to=clothes_image_path, 
                                     blank=True, processors=[ResizeToFill(400,400)],
                                     format='JPEG',
                                     options={'quality': 100})
@@ -42,7 +44,11 @@ class Cloth(models.Model):
 
 class ClothImage(models.Model):
     cloth = models.ForeignKey(to=Cloth, on_delete=models.CASCADE)
-    image = ProcessedImageField(upload_to='', blank=True,
+    
+    def clothes_image_path(instance, filename):
+        return f'clothes/{instance.cloth.name}/{filename}'
+    
+    image = ProcessedImageField(upload_to=clothes_image_path, blank=True,
                                 processors=[ResizeToFill(250,300)],
                                 format='JPEG',
                                 options={'quality': 100})
@@ -75,3 +81,14 @@ class Recommend(models.Model):
 #                                 format='JPEG',
 #                                 options={'quality': 100})
 
+
+class ClothDescriptionImage(models.Model):
+    cloth = models.ForeignKey(to=Cloth, on_delete=models.CASCADE)
+    
+    def clothes_image_path(instance, filename):
+        return f'clothes/{instance.cloth.name}/{filename}'
+    
+    description_image = ProcessedImageField(upload_to=clothes_image_path, blank=True,
+                                processors=[],
+                                format='JPEG',
+                                options={'quality': 100})
