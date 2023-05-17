@@ -47,18 +47,20 @@
         <!-- 장고 입력 예시  -->
         <div class="cart">
             {% for item in carts %}
-            <div class="cart-item">
-                {% if item.cloth.thumbnail %}
-                <img src="{{ item.cloth.thumbnail.url }}" alt="product_image">
-                {% else %}
-                <img src="{% static 'img/common/passionon.png' %}" alt="No Product Image" class="">
-                {% endif %}
-                <p>{{ item.cloth.name }}</p>
-                <p>{{ item.cloth.price }}원</p>
-                <p>{{ item.quantity }}개</p>
-                {# item_cost = 상품가격 * 장바구니에 담은 상품 갯수 #}
-                <p>{{ item.item_cost }}원</p>
-            </div>
+            <a href="{% url 'clothes:detail' item.cloth.pk %}">
+                <div class="cart-item">
+                    {% if item.cloth.thumbnail %}
+                    <img src="{{ item.cloth.thumbnail.url }}" alt="product_image">
+                    {% else %}
+                    <img src="{% static 'img/common/passionon.png' %}" alt="No Product Image" class="">
+                    {% endif %}
+                    <p>{{ item.cloth.name }}</p>
+                    <p>{{ item.cloth.price }}원</p>
+                    <p>{{ item.quantity }}개</p>
+                    {# item_cost = 상품가격 * 장바구니에 담은 상품 갯수 #}
+                    <p>{{ item.item_cost }}원</p>
+                </div>
+            </a>
             {% endfor %}
         </div>
         <section>구매 내역</section>

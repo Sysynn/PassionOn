@@ -27,6 +27,8 @@ function increase() {
 
 function checkValue() {
   var input = document.getElementById('numInput');
+  var quantityInput = document.getElementById('quantityInput')
+  quantityInput.value = input.value
   if (input.value < 1) {
     input.value = 1;
   }
@@ -34,15 +36,16 @@ function checkValue() {
 
 function updateTotal() {
   var input = document.getElementById('numInput');
-  var selectedProduct = document.querySelector('.dropdown-toggle').textContent.trim();
+  // var selectedProduct = document.querySelector('.dropdown-toggle').textContent.trim();
+  var productSize = document.getElementById('clothSize').textContent
   var quantityInput = document.getElementById('quantityInput')
-  var price = document.getElementById('clothPrice').textContent;
+  var price = document.getElementById('clothesPrice').textContent;
   var total = price * parseFloat(input.value);
   if (isNaN(total)) {
     total = 0;
   }
   quantityInput.value = input.value
-  document.getElementById('totalAmount').innerHTML = "옵션 : " + selectedProduct + " " + "수량 : " + input.value + " / 총 상품금액: " + total.toLocaleString('ko-KR') + "원";
+  document.getElementById('totalAmount').innerHTML = "사이즈 : " + productSize + " " + "수량 : " + input.value + " / 총 상품금액: " + total.toLocaleString('ko-KR') + "원";
 }
 
 const thumbnails = document.querySelectorAll('.thumbnail');

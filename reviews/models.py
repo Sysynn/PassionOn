@@ -17,7 +17,7 @@ class Review(models.Model):
     def star_rating(self):
         return '⭐' * self.rating
     
-    def empty_stat_rating(self):
+    def empty_star_rating(self):
         return '☆' * (5 - self.rating)
 
     created_at = models.DateTimeField(auto_now_add=True)

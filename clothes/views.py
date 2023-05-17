@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
+from .models import Cloth, ClothImage, Recommend, ClothDescriptionImage
+from reviews.models import Review, ReviewImage
 from .models import Cloth, ClothImage, Recommend, RecommendImage, Comment
-from .forms import ClothForm, ClothImageForm, RecommendForm, RecommendImageForm, CommentForm
+from .forms import ClothForm, ClothImageForm, RecommendForm, RecommendImageForm, CommentForm, ClothDescriptionImageForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.db.models import Q
+from django.db.models import Q, Avg, Count, F, Value
+from django.db.models.functions import Coalesce
 from taggit.models import Tag
 
 # Create your views here.
@@ -39,6 +42,7 @@ def index(request):
 def detail(request, cloth_pk):
     cloth = Cloth.objects.get(pk=cloth_pk)
     cloth_images = ClothImage.objects.filter(cloth=cloth)
+    cloth_description_images = ClothDescriptionImage.objects.filter(cloth=cloth)
 
     tags = cloth.tags.all()
 
@@ -48,10 +52,22 @@ def detail(request, cloth_pk):
         cloth.save()
         request.session[session_key] = True
 
+    reviews = Review.objects.filter(clothes=cloth)
+    review_avg = Review.objects.filter(clothes=cloth).aggregate(avg=Avg('rating'))['avg']
+    
+    exist_flag = False
+    if request.user.is_authenticated:
+        if not cloth.review_set.filter(user=request.user).exists():
+            exist_flag = True
+    
     context = {
         'cloth': cloth,
         'cloth_images': cloth_images,
+        'cloth_description_images': cloth_description_images,
         'tags': tags,
+        'reviews': reviews,
+        'review_avg': review_avg,
+        'exist_flag': exist_flag,
     }
     return render(request, 'clothes/detail.html', context)
 
@@ -61,10 +77,12 @@ def create(request):
     if request.method == 'POST':
         cloth_form = ClothForm(request.POST, request.FILES)
         cloth_image_form = ClothImageForm(request.POST, request.FILES)
+        cloth_description_image_form = ClothDescriptionImageForm(request.POST, request.FILES)
         files = request.FILES.getlist('image')
+        description_files = request.FILES.getlist('description_image')
         tags = request.POST.get('tags').split(',')
         
-        if cloth_form.is_valid() and cloth_image_form.is_valid():
+        if cloth_form.is_valid() and cloth_image_form.is_valid() and cloth_description_image_form.is_valid():
             cloth = cloth_form.save(commit=False)
             cloth.user = request.user
             cloth.save()
@@ -75,13 +93,19 @@ def create(request):
             for file in files:
                 ClothImage.objects.create(cloth=cloth, image=file)
 
+            for file in description_files:
+                ClothDescriptionImage.objects.create(cloth=cloth, description_image=file)
+                
             return redirect('clothes:detail', cloth.pk)
     else:
         cloth_form = ClothForm()
         cloth_image_form = ClothImageForm()
+        cloth_description_image_form = ClothDescriptionImageForm()
+        
     context = {
         'cloth_form': cloth_form,
         'cloth_image_form': cloth_image_form,
+        'cloth_description_image_form': cloth_description_image_form,
     }
     return render(request, 'clothes/create.html', context)
 
@@ -93,8 +117,10 @@ def update(request, cloth_pk):
     if request.method == 'POST':
         cloth_form = ClothForm(request.POST, request.FILES, instance=cloth)
         cloth_image_form = ClothImageForm(request.POST, request.FILES)
+        cloth_description_image_form = ClothDescriptionImageForm(request.POST, request.FILES)
         files = request.FILES.getlist('image')
-        if cloth_form.is_valid() and cloth_image_form.is_valid():
+        description_files = request.FILES.getlist('description_image')
+        if cloth_form.is_valid() and cloth_image_form.is_valid() and cloth_description_image_form.is_valid():
             cloth = cloth_form.save(commit=False)
             cloth.user = request.user
             cloth.save()
@@ -108,17 +134,27 @@ def update(request, cloth_pk):
             cloth_images = ClothImage.objects.filter(cloth=cloth)
             for img in cloth_images:
                 img.delete()
+            
+            cloth_description_images = ClothDescriptionImage.objects.filter(cloth=cloth)
+            for img in cloth_description_images:
+                img.delete()
                 
             for file in files:
                 ClothImage.objects.create(cloth=cloth, image=file)
+            
+            for file in description_files:
+                ClothDescriptionImage.objects.create(cloth=cloth, description_image=file)
             
             return redirect('clothes:detail', cloth.pk)
     else:
         cloth_form = ClothForm(instance=cloth)
         cloth_image_form = ClothImageForm()
+        cloth_description_image_form = ClothDescriptionImageForm()
+        
     context = {
         'cloth_form': cloth_form,
         'cloth_image_form': cloth_image_form,
+        'cloth_description_image_form': cloth_description_image_form,
         'cloth': cloth,
     }
     return render(request, 'clothes/update.html', context)
@@ -128,7 +164,10 @@ def update(request, cloth_pk):
 def delete(request, cloth_pk):
     cloth = Cloth.objects.get(pk=cloth_pk)
     cloth_images = cloth.clothimage_set.all()
+    cloth_description_images = cloth.clothdescriptionimage_set.all()
     for cloth_image in cloth_images:
+        cloth_image.delete()
+    for cloth_image in cloth_description_images:
         cloth_image.delete()
     cloth.delete()
     return redirect('clothes:index')

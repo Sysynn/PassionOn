@@ -15,6 +15,7 @@ from django.db.models import Count, Sum
 #     return render(request, 'accounts/temp.html', context)
 
 
+@login_required
 def profile(request, username: str):
     User = get_user_model()
     person = User.objects.get(username=username)

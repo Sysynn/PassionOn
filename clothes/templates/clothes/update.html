@@ -5,6 +5,7 @@
     {% csrf_token %}
     {{ cloth_form.as_p }}
     {{ cloth_image_form.as_p }}
-    <button type="submit">업데이트</button>
+    {{ cloth_description_image_form.as_p }}
+    <button type="submit" class="btn btn-dark">업데이트</button>
   </form>
 {% endblock %}

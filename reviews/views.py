@@ -8,6 +8,8 @@ from django.http import JsonResponse
 # Create your views here.
 def review_create(request, cloth_pk):
     cloth = Cloth.objects.get(pk=cloth_pk)
+    if cloth.review_set.filter(user=request.user).exists():
+        return redirect('clothes:detail', cloth_pk)
     
     if request.method == 'POST':
         review_form = ReviewForm(request.POST)

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Cloth, ClothImage, Recommend, RecommendImage, Comment
+from .models import Cloth, ClothImage, Recommend, RecommendImage, Comment, ClothDescriptionImage
 from taggit.managers import TaggableManager
 from taggit.forms import TagField, TagWidget
 
@@ -45,6 +45,14 @@ class RecommendImageForm(forms.ModelForm):
         model = RecommendImage
         fields = ('image', )
 
+
+class ClothDescriptionImageForm(forms.ModelForm):
+    description_image = forms.ImageField(label='상품 설명 이미지 업로드', widget=forms.ClearableFileInput(attrs={'class': 'form-control', 'multiple': True,},), required=False,)
+
+    class Meta:
+        model = ClothDescriptionImage
+        fields = ('description_image', )
+        
 
 class CommentForm(forms.ModelForm):
     content = forms.CharField(label='댓글', widget=forms.TextInput(attrs={'class': 'form-control',}))
