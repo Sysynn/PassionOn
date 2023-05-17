@@ -51,13 +51,15 @@
 </div>
 
 {# Main Page Content #}
-<div style="margin-top: 2rem;">
+<div>
     <div class="product-content">
         <h3>Just Dropped</h3>
         <p>발매 상품</p>
         <div class="product-grid">
             {% for cloth in new_clothes %}
-            <div class="product-item">
+            <div class="product-item newClothes" 
+            id="newClothes{{ forloop.counter }}" 
+            {% if forloop.counter > 4 %}hidden{% endif %}>
                 <a href="{% url 'clothes:detail' cloth.pk %}">
                     {% if cloth.thumbnail %}
                     <img src="{{ cloth.thumbnail.url }}" alt="Product 1">
@@ -65,52 +67,32 @@
                     <img src="{% static 'img/common/passionon.png' %}" alt="Product 1">
                     {% endif %}
                     <div class="product-title">{{ cloth.name }}</div>
-                    <div class="product-description">{{ cloth.category }}</div>
-                    <div class="product-price-text">${{ cloth.price }}</div>
+                    <div class="product-description">{{ cloth.brand }}</div>
+                    <div class="product-price-text">{{ cloth.price }}원</div>
                     <p class="product-add-text">즉시구매가</p>
                 </a>
             </div>
+            {% empty %}
+            <p class="text-secondary text-center">신상품 없음</p>
             {% endfor %}
-
-            {% comment %} <div class="product-item">
-                <img src="https://kream-phinf.pstatic.net/MjAyMzA0MjBfMTA3/MDAxNjgxOTUwNTQzOTUw.GGUbCBnzhYtn2SHkkScWTBcAkMBgqo-v9up7fl1NMF4g.0LnLOSLzPxVGuaSHp32IIYJC6Z5R8RS28k9bJUbf368g.JPEG/a_83d66b09c0d3426a85a5a7c73eb247a7.jpg?type=m_webp" alt="Product 1">
-                <div class="product-title">Product 1</div>
-                <div class="product-description">This is a description</div>
-                <div class="product-price-text">$100</div>
-                <p class="product-add-text">즉시구매가</p>
-            </div>
-            <div class="product-item">
-                <img src="https://kream-phinf.pstatic.net/MjAyMzA0MjBfMTA3/MDAxNjgxOTUwNTQzOTUw.GGUbCBnzhYtn2SHkkScWTBcAkMBgqo-v9up7fl1NMF4g.0LnLOSLzPxVGuaSHp32IIYJC6Z5R8RS28k9bJUbf368g.JPEG/a_83d66b09c0d3426a85a5a7c73eb247a7.jpg?type=m_webp" alt="Product 1">
-                <div class="product-title">Product 2</div>
-                <div class="product-description">This is a description</div>
-                <div class="product-price-text">$100</div>
-                <p class="product-add-text">즉시구매가</p>
-            </div>
-            <div class="product-item">
-                <img src="https://kream-phinf.pstatic.net/MjAyMzA0MjBfMTA3/MDAxNjgxOTUwNTQzOTUw.GGUbCBnzhYtn2SHkkScWTBcAkMBgqo-v9up7fl1NMF4g.0LnLOSLzPxVGuaSHp32IIYJC6Z5R8RS28k9bJUbf368g.JPEG/a_83d66b09c0d3426a85a5a7c73eb247a7.jpg?type=m_webp" alt="Product 1">
-                <div class="product-title">Product 3</div>
-                <div class="product-description">This is a description</div>
-                <div class="product-price-text">$100</div>
-                <p class="product-add-text">즉시구매가</p>
-            </div>
-            <div class="product-item">
-                <img src="https://kream-phinf.pstatic.net/MjAyMzA0MjBfMTA3/MDAxNjgxOTUwNTQzOTUw.GGUbCBnzhYtn2SHkkScWTBcAkMBgqo-v9up7fl1NMF4g.0LnLOSLzPxVGuaSHp32IIYJC6Z5R8RS28k9bJUbf368g.JPEG/a_83d66b09c0d3426a85a5a7c73eb247a7.jpg?type=m_webp" alt="Product 1">
-                <div class="product-title">Product 4</div>
-                <div class="product-description">This is a description</div>
-                <div class="product-price-text">$100</div>
-                <p class="product-add-text">즉시구매가</p>
-            </div> {% endcomment %}
+        </div>
+        <div class="d-flex mb-2">
+            <button id="newClothesBtn" class="mx-auto btn btn-secondary">더보기</button>
         </div>
     </div>
+
     <div class="img-box">
         <img src="https://kream-phinf.pstatic.net/MjAyMzA1MDhfMTIg/MDAxNjgzNTI3MDY4Nzg4.ySJp5NBDSBq-MmFloLwBe6QeV1fJBd_BYoL19pZXf50g.2uw1Obhr4MuTl5knPMmZFBFttligmoxl527yU6uURJUg.JPEG/a_9944502aab6a4ab5a01c432c4ee87fc3.jpg?type=m_2560_webp" alt="">
     </div>
+
     <div class="product-content">
         <h3>Best Items</h3>
         <p>인기 상품</p>
         <div class="product-grid">
             {% for cloth in hot_clothes %}
-            <div class="product-item">
+            <div class="product-item hotClothes" 
+            id="hotClothes{{ forloop.counter }}"
+            {% if forloop.counter > 4 %}hidden{% endif %}>
                 <a href="{% url 'clothes:detail' cloth.pk %}">
                     {% if cloth.thumbnail %}
                     <img src="{{ cloth.thumbnail.url }}" alt="Product 1">
@@ -118,117 +100,40 @@
                     <img src="{% static 'img/common/passionon.png' %}" alt="Product 1">
                     {% endif %}
                     <div class="product-title">{{ cloth.name }}</div>
-                    <div class="product-description">{{ cloth.category }}</div>
+                    <div class="product-description">{{ cloth.brand }}</div>
                     <div class="product-price-text">${{ cloth.price }}</div>
                     <p class="product-add-text">즉시구매가</p>
                 </a>
             </div>
             {% endfor %}
+        </div>
+        <div class="d-flex mb-2">
+            <button id="hotClothesBtn" class="mx-auto btn btn-secondary">더보기</button>
+        </div>
+    </div>
 
-            {% comment %} <div class="product-item">
-                <img src="https://kream-phinf.pstatic.net/MjAyMzA0MjBfMTA3/MDAxNjgxOTUwNTQzOTUw.GGUbCBnzhYtn2SHkkScWTBcAkMBgqo-v9up7fl1NMF4g.0LnLOSLzPxVGuaSHp32IIYJC6Z5R8RS28k9bJUbf368g.JPEG/a_83d66b09c0d3426a85a5a7c73eb247a7.jpg?type=m_webp" alt="Product 1">
-                <div class="product-title">Product 1</div>
-                <div class="product-description">This is a description</div>
-                <div class="product-price-text">$100</div>
-                <p class="product-add-text">즉시구매가</p>
-            </div>
-            <div class="product-item">
-                <img src="https://kream-phinf.pstatic.net/MjAyMzA0MjBfMTA3/MDAxNjgxOTUwNTQzOTUw.GGUbCBnzhYtn2SHkkScWTBcAkMBgqo-v9up7fl1NMF4g.0LnLOSLzPxVGuaSHp32IIYJC6Z5R8RS28k9bJUbf368g.JPEG/a_83d66b09c0d3426a85a5a7c73eb247a7.jpg?type=m_webp" alt="Product 1">
-                <div class="product-title">Product 2</div>
-                <div class="product-description">This is a description</div>
-                <div class="product-price-text">$100</div>
-                <p class="product-add-text">즉시구매가</p>
-            </div>
-            <div class="product-item">
-                <img src="https://kream-phinf.pstatic.net/MjAyMzA0MjBfMTA3/MDAxNjgxOTUwNTQzOTUw.GGUbCBnzhYtn2SHkkScWTBcAkMBgqo-v9up7fl1NMF4g.0LnLOSLzPxVGuaSHp32IIYJC6Z5R8RS28k9bJUbf368g.JPEG/a_83d66b09c0d3426a85a5a7c73eb247a7.jpg?type=m_webp" alt="Product 1">
-                <div class="product-title">Product 3</div>
-                <div class="product-description">This is a description</div>
-                <div class="product-price-text">$100</div>
-                <p class="product-add-text">즉시구매가</p>
-            </div>
-            <div class="product-item">
-                <img src="https://kream-phinf.pstatic.net/MjAyMzA0MjBfMTA3/MDAxNjgxOTUwNTQzOTUw.GGUbCBnzhYtn2SHkkScWTBcAkMBgqo-v9up7fl1NMF4g.0LnLOSLzPxVGuaSHp32IIYJC6Z5R8RS28k9bJUbf368g.JPEG/a_83d66b09c0d3426a85a5a7c73eb247a7.jpg?type=m_webp" alt="Product 1">
-                <div class="product-title">Product 4</div>
-                <div class="product-description">This is a description</div>
-                <div class="product-price-text">$100</div>x
-                <p class="product-add-text">즉시구매가</p>
-            </div> {% endcomment %}
-        </div>
-    </div>
-    <div class="img-box">
-        <img src="https://kream-phinf.pstatic.net/MjAyMzA1MDhfMjMw/MDAxNjgzNTI5NjY0MzIx.lU_jTCKTKKaJG8VIFyFl_sHPU8FtIEQkrA2ZHjOVzyEg.yCokvDv1qgf8cLHnnSpPCqBjv09QoGHU3srVFAto4nIg.JPEG/a_aa9565fb4c05430089332d29c0178287.jpg?type=m_2560_webp" alt="">
-    </div>
-    <div class="product-content">
-        <h3>MD's pick</h3>
-        <p>MD의 추천 코디</p>
-        <div class="product-grid">
-            <div class="product-item">
-                <img src="{% static 'img/common/passionon.png' %}" alt="Product 1">
-                <div class="product-title">Product 1</div>
-                <div class="product-description">This is a description</div>
-                <div class="product-price-text">$100</div>
-                <p class="product-add-text">즉시구매가</p>
-            </div>
-            <div class="product-item">
-                <img src="{% static 'img/common/passionon.png' %}" alt="Product 1">
-                <div class="product-title">Product 2</div>
-                <div class="product-description">This is a description</div>
-                <div class="product-price-text">$100</div>
-                <p class="product-add-text">즉시구매가</p>
-            </div>
-            <div class="product-item">
-                <img src="{% static 'img/common/passionon.png' %}" alt="Product 1">
-                <div class="product-title">Product 3</div>
-                <div class="product-description">This is a description</div>
-                <div class="product-price-text">$100</div>
-                <p class="product-add-text">즉시구매가</p>
-            </div>
-            <div class="product-item">
-                <img src="{% static 'img/common/passionon.png' %}" alt="Product 1">
-                <div class="product-title">Product 4</div>
-                <div class="product-description">This is a description</div>
-                <div class="product-price-text">$100</div>
-                <p class="product-add-text">즉시구매가</p>
-            </div>
-        </div>
-    </div>
     <div class="img-box">
         <img src="https://kream-phinf.pstatic.net/MjAyMzA1MDhfNzYg/MDAxNjgzNTI5NTI2NjU2.BufBvjTCgqAV3Q-8kz6wrKnThPqWpGejLbe7JMvUnbIg.PRvSoyQo7ZBX1Etxh6nrxCZ6zTn5dh9G-cXmfsYeJzog.JPEG/a_52d48d52be30471a9a1053f6b0e54388.jpg?type=m_2560_webp" alt="">
     </div>
+
     <div class="product-content">
         <h3>Trending</h3>
         <p>나만의 코디</p>
         <div class="product-grid">
+            {% for recommend in recommends %}
             <div class="product-item">
-                <img src="{% static 'img/common/passionon.png' %}" alt="Product 1">
-                <div class="product-title">Product 1</div>
-                <div class="product-description">This is a description</div>
-                <div class="product-price-text">$100</div>
-                <p class="product-add-text">즉시구매가</p>
+                <a href="{% url 'clothes:recommend_detail' recommend.pk %}">
+                    <img src="{% static 'img/common/passionon.png' %}" alt="Coordi 1">
+                    <div class="product-title">{{ recommend.title }}</div>
+                    <div class="product-description recommend-product-description">{{ recommend.content }}</div>
+                    <p class="product-add-text">즉시구매가</p>
+                </a>
             </div>
-            <div class="product-item">
-                <img src="{% static 'img/common/passionon.png' %}" alt="Product 1">
-                <div class="product-title">Product 2</div>
-                <div class="product-description">This is a description</div>
-                <div class="product-price-text">$100</div>
-                <p class="product-add-text">즉시구매가</p>
-            </div>
-            <div class="product-item">
-                <img src="{% static 'img/common/passionon.png' %}" alt="Product 1">
-                <div class="product-title">Product 3</div>
-                <div class="product-description">This is a description</div>
-                <div class="product-price-text">$100</div>
-                <p class="product-add-text">즉시구매가</p>
-            </div>
-            <div class="product-item">
-                <img src="{% static 'img/common/passionon.png' %}" alt="Product 1">
-                <div class="product-title">Product 4</div>
-                <div class="product-description">This is a description</div>
-                <div class="product-price-text">$100</div>
-                <p class="product-add-text">즉시구매가</p>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
+
+<script src="{% static 'javascript/index.js' %}"></script>
 
 {% endblock content %}
