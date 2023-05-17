@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<main class="container">
   <form {% url 'clothes:update' cloth.pk %} method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ cloth_form.as_p }}
@@ -8,4 +9,5 @@
     {{ cloth_description_image_form.as_p }}
     <button type="submit" class="btn btn-dark">업데이트</button>
   </form>
+</main>
 {% endblock %}

@@ -1,5 +1,7 @@
 .product-content {
     padding: 0 3rem;
+    margin: 2rem 0;
+    min-width: 50rem;
 }
 .product-content h3 {
     margin-bottom: 0;
@@ -20,6 +22,9 @@
     padding: 10px;
     box-sizing: border-box;
 }
+.product-item:hover {
+    background-color: rgb(240, 240, 240);
+}
 
 .product-item img {
     max-width: 100%;
@@ -34,6 +39,18 @@
 .product-description {
     color: black;
     font-weight: light;
+}
+.recommend-product-description {
+    max-width: 8rem;
+    height: 1.5rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+@media (min-width: 1090px) {
+    .recommend-product-description {
+        max-width: 13rem;
+    }
 }
 
 .product-price-text {

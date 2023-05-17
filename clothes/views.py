@@ -34,10 +34,13 @@ def index(request):
         score = F('review_score') + F('purchase_score') + F('like_score'),
         ).order_by('-score')[:16]  
 
+    recommends = Recommend.objects.order_by('-pk')[:4]
+    
     context = {
         'clothes': clothes,
         'new_clothes': new_clothes,
         'hot_clothes': hot_clothes,
+        'recommends': recommends,
     }
     
     return render(request, 'clothes/index.html', context)
