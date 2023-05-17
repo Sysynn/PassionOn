@@ -199,7 +199,7 @@ def search(request):
         'query': query,
         'search_list': search_list,
     }
-    return render(request, 'clothes/index.html', context)
+    return render(request, 'clothes/search.html', context)
 
 
 

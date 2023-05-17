@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
+{% endblock head %}
+
+{% block content %}
+<div class="search-results">
+  {% if search_list %}
+    <h3>입력하신 결과에 해당하는 제품입니다. "{{ query }}"</h3>
+    <div class="cloth-list">
+      {% for cloth in search_list %}
+        <div class="cloth">
+          {% with cloth_image=cloth.clothimage_set.first %}
+            {% if cloth_image %}
+              <a href="{% url 'clothes:detail' cloth.pk %}">
+                <img src="{{ cloth.thumbnail.url }}" alt="{{ cloth.name }}" class="cloth-image">
+              </a>
+            {% endif %}
+          {% endwith %}
+          <div class="cloth-details">
+            <h3 class="cloth-name">
+              <a href="{% url 'clothes:detail' cloth.pk %}">{{ cloth.name }}</a>
+            </h3>
+            <p class="cloth-description">{{ cloth.category }}</p>
+            <p class="cloth-price">${{ cloth.price }}</p>
+            <p class="cloth-add-text">즉시구매가</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <h3>입력하신 제품에 해당하는 제품을 찾을 수 없습니다 😂 "{{ query }}".</h3>
+  {% endif %}
+</div>
+{% endblock content %}
