@@ -22,4 +22,5 @@ urlpatterns = [
     path('recommend_detail/<int:recommend_pk>', views.recommend_detail, name='recommend_detail'),
     path('<int:recommend_pk>/delete/', views.recommend_delete, name='recommend_delete'),
     path('shop/', views.shop, name='shop'),
+    path('md-pick/', views.md_pick, name='md_pick'),
 ]

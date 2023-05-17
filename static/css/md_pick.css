@@ -1,0 +1,176 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Josefin+Sans&family=Noto+Sans+KR&display=swap');
+
+
+.md_main {
+    position: absolute;
+    top: 350px;
+    left: 50%;
+    z-index: 3;
+}
+.md_main h1 {
+    font-family: 'Anton', sans-serif;
+    font-size: 5rem;
+    margin-bottom: 5px;
+}
+.md_main p {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+.md_container {
+    display: flex;
+    margin-top: 50px;
+    justify-content: space-around;
+}
+.md_img_box_01, .md_img_box_02 {
+    position: relative;
+    width: 600px; 
+    height: 800px; 
+}
+
+.md_img_box_01 img, .md_img_box_02 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.md_img_box_02 {
+    margin-top: 330px;
+}
+.md_circle_01 {
+    position: absolute;
+    top: 47%; 
+    left: 47%; 
+    transform: translate(-50%, -50%);
+    width: 20px; 
+    height: 20px; /* adjust to your preference */
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.md_circle_02 {
+    position: absolute;
+    top: 65%; /* adjust to your preference */
+    left: 55%; /* adjust to your preference */
+    transform: translate(-50%, -50%);
+    width: 20px; /* adjust to your preference */
+    height: 20px; /* adjust to your preference */
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.md_circle_03 {
+    position: absolute;
+    top: 58%; /* adjust to your preference */
+    left: 38%; /* adjust to your preference */
+    transform: translate(-50%, -50%);
+    width: 20px; /* adjust to your preference */
+    height: 20px; /* adjust to your preference */
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.md_circle_04 {
+    position: absolute;
+    top: 58%; /* adjust to your preference */
+    left: 58%; /* adjust to your preference */
+    transform: translate(-50%, -50%);
+    width: 20px; /* adjust to your preference */
+    height: 20px; /* adjust to your preference */
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.md_circle_05 {
+    position: absolute;
+    top: 28%; /* adjust to your preference */
+    left: 48%; /* adjust to your preference */
+    transform: translate(-50%, -50%);
+    width: 20px; /* adjust to your preference */
+    height: 20px; /* adjust to your preference */
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.md_circle_06 {
+    position: absolute;
+    top: 8%; /* adjust to your preference */
+    left: 58%; /* adjust to your preference */
+    transform: translate(-50%, -50%);
+    width: 20px; /* adjust to your preference */
+    height: 20px; /* adjust to your preference */
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.md_onimg_box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(0, 0);
+    display: none;
+    width: 130px; 
+    height: 130px; 
+    background-color: rgba(50, 50, 50, 0.5);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+}
+
+.md_onimg_box img {
+    width: 50px;
+    height: 50px;
+    border: 2px solid white;
+    margin-bottom: 0.5rem;
+}
+
+[class^="md_circle"]:hover .md_onimg_box {
+    display: block;
+}
+
+.md_container .md_img_box_01 .md_onimg_box .md_onimg_text,
+.md_container .md_img_box_02 .md_onimg_box .md_onimg_text {
+    color: white;
+    opacity: 100%;
+}
+
+
+.md_onimg_text {
+    text-align: center;
+}
+
+.custom-shape-divider-bottom-1684270524 {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1684270524 svg {
+    position: relative;
+    display: block;
+    width: calc(140% + 1.3px);
+    height: 329px;
+}
+
+.custom-shape-divider-bottom-1684270524 .shape-fill {
+    fill: #A2C8ED;
+}
