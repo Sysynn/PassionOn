@@ -29,8 +29,13 @@ html, body {
     /* font-family: 'Josefin Sans', sans-serif;
     font-family: 'Passion One', cursive; */
 }
+.my-carousel-item img {
+    width: 100%;
+    min-width: 50rem;
+}
 .slide1-text1 {
     position: absolute;
+    white-space: nowrap;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -39,6 +44,7 @@ html, body {
 }
 .slide1-text2 {
     position: absolute;
+    white-space: nowrap;
     top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -47,6 +53,7 @@ html, body {
 
 .slide3-text1 {
     position: absolute;
+    white-space: nowrap;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -56,6 +63,7 @@ html, body {
 }
 .slide3-text2 {
     position: absolute;
+    white-space: nowrap;
     top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);

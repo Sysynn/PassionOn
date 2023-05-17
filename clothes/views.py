@@ -9,9 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.db.models import Q, Avg, Count, F, Value
+from django.db.models import Q, Avg, Count, F, Value, FloatField
 from django.db.models.functions import Coalesce
-from django.forms import FloatField
 from taggit.models import Tag
 
 # Create your views here.
@@ -37,7 +36,10 @@ def index(request):
 
     context = {
         'clothes': clothes,
+        'new_clothes': new_clothes,
+        'hot_clothes': hot_clothes,
     }
+    
     return render(request, 'clothes/index.html', context)
 
 
@@ -76,6 +78,9 @@ def detail(request, cloth_pk):
 
 @login_required
 def create(request):
+    if not request.user.is_superuser:
+        return redirect('clothes:index')
+        
     if request.method == 'POST':
         cloth_form = ClothForm(request.POST, request.FILES)
         cloth_image_form = ClothImageForm(request.POST, request.FILES)
