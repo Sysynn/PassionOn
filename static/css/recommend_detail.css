@@ -1,0 +1,23 @@
+#profileImage {
+  width: 75px; 
+  height: 75px; 
+  border-radius: 50%;
+}
+
+.p_p{
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.recommend_item{
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.r_p_p{
+  width: 40px;
+  height: 40px;
+  object-fit: cover;        
+}
