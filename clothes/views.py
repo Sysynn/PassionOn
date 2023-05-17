@@ -110,6 +110,11 @@ def update(request, cloth_pk):
             for tag in tags:
                 cloth.tags.add(tag.strip())
 
+            # 기존 이미지 삭제
+            cloth_images = ClothImage.objects.filter(cloth=cloth)
+            for img in cloth_images:
+                img.delete()
+                
             for file in files:
                 ClothImage.objects.create(cloth=cloth, image=file)
             

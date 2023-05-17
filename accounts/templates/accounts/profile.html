@@ -51,7 +51,7 @@
                 {% if item.cloth.thumbnail %}
                 <img src="{{ item.cloth.thumbnail.url }}" alt="product_image">
                 {% else %}
-                <img src="https://kream-phinf.pstatic.net/MjAyMzA0MjBfMTA3/MDAxNjgxOTUwNTQzOTUw.GGUbCBnzhYtn2SHkkScWTBcAkMBgqo-v9up7fl1NMF4g.0LnLOSLzPxVGuaSHp32IIYJC6Z5R8RS28k9bJUbf368g.JPEG/a_83d66b09c0d3426a85a5a7c73eb247a7.jpg?type=m_webp" alt="No Product Image" class="">
+                <img src="{% static 'img/common/passionon.png' %}" alt="No Product Image" class="">
                 {% endif %}
                 <p>{{ item.cloth.name }}</p>
                 <p>{{ item.cloth.price }}원</p>

@@ -154,29 +154,32 @@ def change_password(request):
 
 
 @login_required
-def add_cart(request, username: str, cloth_pk: int):
+def add_cart(request, cloth_pk: int):
     me = request.user
     cloth = Cloth.objects.get(pk=cloth_pk)
-    quantity = request.POST.get('quantity')
-    if quantity:
-        Cart.objects.create(user=me, cloth=cloth, quantity=quantity)
+    cloth_quantity = request.POST.get('quantity')
+    # cloth_size = request.POST.get('size')
+    if cloth_quantity:
+        Cart.objects.create(user=me, cloth=cloth, quantity=cloth_quantity)
+        # Cart.objects.create(user=me, cloth=cloth, quantity=cloth_quantity, size=cloth_size)
     else:
         Cart.objects.create(user=me, cloth=cloth)
-        
-    return redirect('clothes:detail', cloth_pk)
+    
+    return redirect('accounts:profile', request.user)
 
 
 @login_required
-def purchase(request, username: str, cloth_pk: int):
+def purchase(request, cloth_pk: int):
     me = request.user
     cloth = Cloth.objects.get(pk=cloth_pk)
-    quantity = request.POST.get('quantity')
-    if quantity:
-        PurchaseLog.objects.create(user=me, cloth=cloth, quantity=quantity)
+    cloth_quantity = request.POST.get('quantity')
+    # cloth_size = request.POST.get('size')
+    if cloth_quantity:
+        PurchaseLog.objects.create(user=me, cloth=cloth, quantity=cloth_quantity)
+        # PurchaseLog.objects.create(user=me, cloth=cloth, quantity=cloth_quantity, size=cloth_size)
     else:
         PurchaseLog.objects.create(user=me, cloth=cloth)
     
-    # 물건을 구매하고 결제한 후에 이동할 창 구체적인 명세 필요
     return redirect('clothes:index')
 
 

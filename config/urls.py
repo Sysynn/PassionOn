@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import redirect
 
 
 urlpatterns = [
@@ -25,4 +26,6 @@ urlpatterns = [
     path('clothes/', include('clothes.urls')),
     path('reviews/', include('reviews.urls')),
     path('accounts/', include('allauth.urls')),
+    # localhost:8000을 localhost:8000/clothes로 redirect
+    path('', (lambda request: redirect('clothes:index'))),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
