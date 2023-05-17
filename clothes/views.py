@@ -119,6 +119,9 @@ def create(request):
 
 @login_required
 def update(request, cloth_pk):
+    if not request.user.is_superuser:
+        return redirect('clothes:detal', cloth_pk)
+    
     cloth = Cloth.objects.get(pk=cloth_pk)
     cloth_image = ClothImage.objects.filter(cloth=cloth)
     if request.method == 'POST':
@@ -169,6 +172,9 @@ def update(request, cloth_pk):
 
 @login_required
 def delete(request, cloth_pk):
+    if not request.user.is_superuser:
+        return redirect('clothes:detal', cloth_pk)
+    
     cloth = Cloth.objects.get(pk=cloth_pk)
     cloth_images = cloth.clothimage_set.all()
     cloth_description_images = cloth.clothdescriptionimage_set.all()
