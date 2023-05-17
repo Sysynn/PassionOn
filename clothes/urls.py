@@ -19,4 +19,7 @@ urlpatterns = [
     path('recommend_update/<int:recommend_pk>/', views.recommend_update, name='recommend_update'),
     path('recommend_detail/<int:recommend_pk>/comments/', views.comments_create, name='comments_create'),
     path('recommend_detail/<int:recommend_pk>/comments/<int:comment_pk>/delete/', views.comments_delete, name='comments_delete'),
+    path('recommend_detail/<int:recommend_pk>', views.recommend_detail, name='recommend_detail'),
+    path('<int:recommend_pk>/delete/', views.recommend_delete, name='recommend_delete'),
+    path('shop/', views.shop, name='shop'),
 ]

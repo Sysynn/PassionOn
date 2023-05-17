@@ -49,34 +49,35 @@ class CustomUserChangeForm(UserChangeForm):
     password = None
     class Meta(UserChangeForm.Meta):
         model = get_user_model()
-        fields = ('first_name', 'last_name', 'email', 'profile_image',)
+        fields = ('last_name', 'first_name', 'email', 'profile_image',)
         labels = {
-            'first_name': '이름',
-            'last_name': '성',
-            'email': '이메일',
-            'profile_image': '프로필 사진',
+            'first_name': '이름*',
+            'last_name': '성*',
+            'email': '이메일*',
+            'profile_image': '프로필 이미지*',
         }
         widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.TextInput(attrs={'class': 'form-control'}),
-            'profile_image': forms.ClearableFileInput(attrs={'class': 'form-control'})
+            'first_name': forms.TextInput(attrs={}),
+            'last_name': forms.TextInput(attrs={}),
+            'email': forms.TextInput(attrs={}),
+            'profile_image': forms.ClearableFileInput(attrs={})
         }
         
         
 class CustomPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(
-        label='기존 비밀번호', 
-        widget=forms.PasswordInput(attrs={'class' : 'form-control'}),
+        label='현재 비밀번호*', 
+        widget=forms.PasswordInput(attrs={}),
         )
     new_password1 = forms.CharField(
-        label='새 비밀번호', 
-        widget=forms.PasswordInput(attrs={'class' : 'form-control'}),
-        help_text=password_validation.password_validators_help_text_html(),
+        label='새로운 비밀번호*', 
+        widget=forms.PasswordInput(attrs={}),
+        # help_text=password_validation.password_validators_help_text_html(),
+        help_text = None,
         )
     new_password2 = forms.CharField(
-        label='새 비밀번호 확인', 
-        widget=forms.PasswordInput(attrs={'class' : 'form-control'}),
+        label='새로운 비밀번호 확인*', 
+        widget=forms.PasswordInput(attrs={}),
         )
     
     class Meta:

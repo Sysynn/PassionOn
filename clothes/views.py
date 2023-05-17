@@ -12,6 +12,24 @@ from taggit.models import Tag
 # Create your views here.
 def index(request):
     clothes = Cloth.objects.all()
+    new_clothes = Cloth.objects.order_by('-pk')[:12]
+    
+    purchases_cnt = PurchaseLog.objects.count()
+    likes_cnt = 0
+    for cloth in clothes:
+        likes_cnt += cloth.like_users.count()
+        
+    REVIEW_WEIGHT = 1
+    PURCHASE_WEIGHT = 5
+    LIKE_WEIGHT = 5
+    
+    hot_clothes = Cloth.objects.annotate(
+        review_score = Coalesce(Avg('review__rating') * REVIEW_WEIGHT, Value(0.0), output_field=FloatField()),
+        purchase_score = Coalesce(Count('purchaselog__id', distinct=True) * PURCHASE_WEIGHT / purchases_cnt, Value(0.0), output_field=FloatField()),
+        like_score = Coalesce(Count('like_users', distinct=True) * LIKE_WEIGHT / likes_cnt, Value(0.0), output_field=FloatField()),
+        score = F('review_score') + F('purchase_score') + F('like_score'),
+        ).order_by('-score')[:16]  
+
     context = {
         'clothes': clothes,
     }
@@ -86,6 +104,11 @@ def update(request, cloth_pk):
             for tag in tags:
                 cloth.tags.add(tag.strip())
 
+            # 기존 이미지 삭제
+            cloth_images = ClothImage.objects.filter(cloth=cloth)
+            for img in cloth_images:
+                img.delete()
+                
             for file in files:
                 ClothImage.objects.create(cloth=cloth, image=file)
             
@@ -215,7 +238,6 @@ def recommend_create(request):
     return render(request, 'clothes/recommend_create.html', context)
 
 
-
 @login_required
 def recommend_update(request, recommend_pk):
     recommend = Recommend.objects.get(pk=recommend_pk)
@@ -290,3 +312,12 @@ def comments_delete(request, recommend_pk, comment_pk):
     if comment.user == request.user:
         comment.delete()
     return redirect('clothes:recommend_detail', recommend_pk)
+
+def shop(request):
+    clothes = Cloth.objects.all()
+
+    context = {
+        'clothes' : clothes,
+    }
+    return render(request, 'clothes/shop.html', context)
+

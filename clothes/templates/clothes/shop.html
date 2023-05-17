@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock head %}
+
+
+{% block content %}
+<div class="product-content">
+    <h3>All Products</h3>
+    <p>모든 상품</p>
+    <div class="product-grid">
+        {% for cloth in clothes %}
+        <div class="product-item">
+            <a href="{% url 'clothes:detail' cloth.pk %}">
+                {% if cloth.thumbnail %}
+                <img src="{{ cloth.thumbnail.url }}" alt="Product 1">
+                {% else %}
+                <img src="https://kream-phinf.pstatic.net/MjAyMzA0MjBfMTA3/MDAxNjgxOTUwNTQzOTUw.GGUbCBnzhYtn2SHkkScWTBcAkMBgqo-v9up7fl1NMF4g.0LnLOSLzPxVGuaSHp32IIYJC6Z5R8RS28k9bJUbf368g.JPEG/a_83d66b09c0d3426a85a5a7c73eb247a7.jpg?type=m_webp" alt="Product 1">
+                {% endif %}
+                <div class="product-title">{{ cloth.name }}</div>
+                <div class="product-description">{{ cloth.category }}</div>
+                <div class="product-price-text">${{ cloth.price }}</div>
+                <p class="product-add-text">즉시구매가</p>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

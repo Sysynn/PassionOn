@@ -1,0 +1,59 @@
+.product-content {
+    padding: 0 3rem;
+}
+.product-content h3 {
+    margin-bottom: 0;
+}
+.product-content p {
+    color: gray;
+    margin-top: 0;
+}
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.product-item {
+    flex-basis: calc(25% - 10px);
+    margin-bottom: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.product-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 3%;
+}
+
+.product-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+.product-description {
+    color: black;
+    font-weight: light;
+}
+
+.product-price-text {
+    margin-top: 1rem;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.product-add-text {
+    font-size: 0.5rem;
+}
+
+.img-box {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* 이미지가 div 영역을 넘어가지 않게 설정 */
+}
+
+.img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지가 div 안에 잘 맞도록 설정 */
+}

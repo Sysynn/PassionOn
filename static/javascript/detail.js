@@ -35,11 +35,13 @@ function checkValue() {
 function updateTotal() {
   var input = document.getElementById('numInput');
   var selectedProduct = document.querySelector('.dropdown-toggle').textContent.trim();
-  var price = 49900;
+  var quantityInput = document.getElementById('quantityInput')
+  var price = document.getElementById('clothPrice').textContent;
   var total = price * parseFloat(input.value);
   if (isNaN(total)) {
     total = 0;
   }
+  quantityInput.value = input.value
   document.getElementById('totalAmount').innerHTML = "옵션 : " + selectedProduct + " " + "수량 : " + input.value + " / 총 상품금액: " + total.toLocaleString('ko-KR') + "원";
 }
 
@@ -48,10 +50,22 @@ const largeImage = document.querySelector('.col-6 img');
 
 thumbnails.forEach(thumbnail => {
   thumbnail.addEventListener('mouseover', () => {
-    largeImage.src = '/static/img/clothes/' + thumbnail.dataset.largeImage
+    // largeImage.src = '/static/img/clothes/' + thumbnail.dataset.largeImage
+    largeImage.src = thumbnail.dataset.largeImage
+    console.log(largeImage.src)
+  });
+  let imgChangeTimer
+  thumbnail.addEventListener('mouseout', () => {
+    // 마우스 아웃시 화면전환이 너무 어지럽다 판단되어 delay 추가
+    clearTimeout(imgChangeTimer)
+    imgChangeTimer = setTimeout(() => {
+      largeImage.src = thumbnail.dataset.thumbnailImage;
+    }, 700)
+    console.log(largeImage.src)
   });
 });
 
-largeImage.addEventListener('mouseout', () => {
-  largeImage.src = "/static/img/clothes/2028326_2_500.jpg";
-});
+// largeImage.addEventListener('mouseout', () => {
+//   largeImage.src = '/static/img/clothes/detail_2028326_17_500-s.jpg';
+//   console.log(largeImage.src)
+// });

@@ -20,7 +20,7 @@ class Cart(models.Model):
     cloth = models.ForeignKey(to=Cloth, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     # Cloth에서 추가
-    # size = models.CharField(max_length=10)
+    # size = models.CharField(max_length=10, default='free')
     updated_at = models.DateTimeField(auto_now_add=True)
     
     @property
@@ -33,5 +33,9 @@ class PurchaseLog(models.Model):
     cloth = models.ForeignKey(to=Cloth, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     # Cloth에서 추가
-    # size = models.CharField(max_length=10)
+    # size = models.CharField(max_length=10, default='free')
     bought_at = models.DateTimeField(auto_now_add=True)
+    
+    @property
+    def item_cost(self):
+        return self.cloth.price * self.quantity
