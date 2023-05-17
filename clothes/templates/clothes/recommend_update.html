@@ -1,10 +1,20 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/recommend.css' %}">
+{% endblock head %}
 
 {% block content %}
-  <form action="{% url 'clothes:recommend_update' recommend.pk %}" method='POST' enctype="multipart/form-data">
+<div class="edit_page">
+  <h2 class="form-title"><strong>추천 코디수정</strong></h2>
+  <form action="{% url 'clothes:recommend_update' recommend.pk %}" method='POST' enctype="multipart/form-data" class="edit_page__form">
     {% csrf_token %}
     {{ recommend_form.as_p }}
     {{ recommend_image_form.as_p }}
-    <button type="submit">업데이트</button>
+    <div class="button-container">
+      <button type="submit" class="submit-button">업데이트</button>
+    </div>
   </form>
+</div>
 {% endblock %}

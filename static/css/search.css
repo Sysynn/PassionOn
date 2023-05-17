@@ -1,0 +1,62 @@
+.search-results {
+  padding: 0 3rem;
+}
+
+.search-results h2 {
+  margin-bottom: 0;
+}
+
+.search-results p {
+  color: gray;
+  margin-top: 0;
+}
+
+.cloth-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.cloth {
+  flex-basis: calc(25% - 10px);
+  margin-bottom: 20px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.cloth-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.cloth-description {
+  color: black;
+  font-weight: light;
+}
+
+.cloth-price-text {
+  margin-top: 1rem;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.cloth-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 3%;
+}
+
+.cloth-details .cloth-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.cloth-details .cloth-description {
+  color: black;
+  font-weight: lighter;
+}
+
+.cloth-details .cloth-price {
+  margin-top: 1rem;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
