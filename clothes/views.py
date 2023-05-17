@@ -368,6 +368,7 @@ def comments_delete(request, recommend_pk, comment_pk):
         comment.delete()
     return redirect('clothes:recommend_detail', recommend_pk)
 
+
 def shop(request):
     clothes = Cloth.objects.all()
 
@@ -376,3 +377,6 @@ def shop(request):
     }
     return render(request, 'clothes/shop.html', context)
 
+
+def md_pick(request):
+    return render(request, 'clothes/md_pick.html')
