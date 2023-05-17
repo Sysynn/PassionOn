@@ -9,6 +9,9 @@
         </a></code>
            <span>님, 안녕하세요!</span>
     </p>
+    {% if request.user.is_superuser %}
+    <a href="{% url 'clothes:create' %}" class="btn btn-warning me-3">상품 등록</a>
+    {% endif %}
     <form action="{% url 'accounts:logout' %}" method="post" class="">
         {% csrf_token %}
         <button type="submit" class="btn btn-dark">Logout</button>
