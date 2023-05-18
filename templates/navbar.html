@@ -75,8 +75,9 @@
            <span>님, 안녕하세요!</span>
     </p>
     {% if request.user.is_superuser %}
-    <a href="{% url 'clothes:create' %}" class="btn btn-warning me-3">상품 등록</a>
+    <a href="{% url 'clothes:create' %}" class="btn btn-warning me-2">상품 등록</a>
     {% endif %}
+    <a href="{% url 'clothes:recommend_create' %}" class="btn btn-secondary me-2">코디 등록</a>
     <form action="{% url 'accounts:logout' %}" method="post" class="">
         {% csrf_token %}
         <button type="submit" class="btn btn-dark">Logout</button>
@@ -114,10 +115,17 @@
 
 <ul class="catemenu">
   <li class="catemenu-item">
-    <a href="{% url 'clothes:md_pick' %}">추천</a>
+    <a href="{% url 'clothes:md_pick' %}">Weekly Pick</a>
   </li>
-  <li class="catemenu-item">남성</li>
-  <li class="catemenu-item">여성</li>
+  <li class="catemenu-item">
+    <a href="{% url 'clothes:gender' 'Female' %}">여성</a>
+  </li>
+  <li class="catemenu-item">
+    <a href="{% url 'clothes:gender' 'Male' %}">남성</a>
+  </li>
+  <li class="catemenu-item">
+    <a href="{% url 'clothes:gender' 'Unisex' %}">유니섹스</a>
+  </li>
 </ul>
 
 <div id="mySidebar" class="sidebar">

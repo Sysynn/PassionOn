@@ -379,4 +379,36 @@ def shop(request):
 
 
 def md_pick(request):
-    return render(request, 'clothes/md_pick.html')
+    left_clothes = Cloth.objects.get(pk=29)
+    left_bag = Cloth.objects.get(pk=25)
+    left_pants = Cloth.objects.get(pk=31)
+    right_cap = Cloth.objects.get(pk=23)
+    right_clothes = Cloth.objects.get(pk=28)
+    right_pants = Cloth.objects.get(pk=26)
+    
+    context = {
+        'left_clothes' : left_clothes,
+        'left_bag' : left_bag,
+        'left_pants' : left_pants,
+        'right_cap' : right_cap,
+        'right_clothes' : right_clothes,
+        'right_pants' : right_pants,
+    }
+    return render(request, 'clothes/md_pick.html', context)
+
+
+def gender(request, gender:str):
+    clothes = Cloth.objects.filter(gender=gender)
+    
+    if gender == 'Male':
+        gender = '남성'
+    elif gender == 'Female':
+        gender = '여성'
+    elif gender == 'Unisex':
+        gender = '유니섹스'
+    
+    context = {
+        'clothes': clothes,
+        'gender': gender,
+    }
+    return render(request, 'clothes/gender.html', context)

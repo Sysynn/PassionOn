@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 
 
 {% block head %}
@@ -24,61 +25,97 @@
     <div class="md_img_box_01">
         <img src="https://kream-phinf.pstatic.net/MjAyMzA1MTZfMjEw/MDAxNjg0MjIwODUzMzAy.SDT0eA_Foi9tepdfz6_dlsfLLNSoWe9gH7aVsM80Oqcg.6YPGz2lgCXABc3S5-3yIwrkhuxaOReZrlVki5XyZfAEg.JPEG/p_e236087ce2c54d2b803a60157d98a8fa.jpeg?type=l_webp" alt="">
         <div class="md_circle_01">
-            <a href="#">
+            {% with left_clothes as clothes %}
+            <a href="{% url 'clothes:detail' clothes.pk %}">
                 <div class="md_onimg_box">
-                        <img src="https://place-hold.it/50" alt="">
-                        <div class="md_onimg_text">갈색 티셔츠</div>
-                        <div class="md_onimg_text">89,000원</div>
+                    {% if clothes.thumbnail %}
+                    <img src="{{ clothes.thumbnail.url }}" alt="">
+                    {% else %}
+                    <img src="https://place-hold.it/50" alt="">
+                    {% endif %}
+                    <div class="md_onimg_text">{{ clothes.name }}</div>
+                    <div class="md_onimg_text">{{ clothes.price|intcomma }}원</div>
                 </div>
             </a>
+            {% endwith %}
         </div>
         <div class="md_circle_02">
-            <a href="#">
+            {% with left_pants as clothes %}
+            <a href="{% url 'clothes:detail' clothes.pk %}">
                 <div class="md_onimg_box">
+                    {% if clothes.thumbnail %}
+                    <img src="{{ clothes.thumbnail.url }}" alt="">
+                    {% else %}
                     <img src="https://place-hold.it/50" alt="">
-                    <div class="md_onimg_text">카고 팬츠</div>
-                    <div class="md_onimg_text">189,000원</div>
+                    {% endif %}
+                    <div class="md_onimg_text">{{ clothes.name }}</div>
+                    <div class="md_onimg_text">{{ clothes.price|intcomma }}원</div>
                 </div>
             </a>
+            {% endwith %}
         </div>
         <div class="md_circle_03">
-            <a href="#">
+            {% with left_bag as clothes %}
+            <a href="{% url 'clothes:detail' clothes.pk %}">
                 <div class="md_onimg_box">
+                    {% if clothes.thumbnail %}
+                    <img src="{{ clothes.thumbnail.url }}" alt="">
+                    {% else %}
                     <img src="https://place-hold.it/50" alt="">
-                    <div class="md_onimg_text">가방</div>
-                    <div class="md_onimg_text">129,000원</div>
+                    {% endif %}
+                    <div class="md_onimg_text">{{ clothes.name }}</div>
+                    <div class="md_onimg_text">{{ clothes.price|intcomma }}원</div>
                 </div>
             </a>
+            {% endwith %}
         </div>
     </div>
     <div class="md_img_box_02">
         <img src="https://kream-phinf.pstatic.net/MjAyMzA1MTZfNjkg/MDAxNjg0MTc3NTU4MzU1.RZnwMvkvvbmCOtwEUgMPIWnq5XKXf-ugUU3mI-HeNWEg.q1EEJ77PITcAtugD0Je4MOoayzaBBt3hCy-A8WJFLl4g.JPEG/p_e26b4eec52a54f29b488cbdab80c574e.jpeg?type=l_webp" alt="">
         <div class="md_circle_04">
-            <a href="#">
+            {% with right_pants as clothes %}
+            <a href="{% url 'clothes:detail' clothes.pk %}">
                 <div class="md_onimg_box">
+                    {% if clothes.thumbnail %}
+                    <img src="{{ clothes.thumbnail.url }}" alt="">
+                    {% else %}
                     <img src="https://place-hold.it/50" alt="">
-                    <div class="md_onimg_text">반바지</div>
-                    <div class="md_onimg_text">119,000원</div>
+                    {% endif %}
+                    <div class="md_onimg_text">{{ clothes.name }}</div>
+                    <div class="md_onimg_text">{{ clothes.price|intcomma }}원</div>
                 </div>
             </a>
+            {% endwith %}
         </div>
         <div class="md_circle_05">
-            <a href="#">
+            {% with right_clothes as clothes %}
+            <a href="{% url 'clothes:detail' clothes.pk %}">
                 <div class="md_onimg_box">
+                    {% if clothes.thumbnail %}
+                    <img src="{{ clothes.thumbnail.url }}" alt="">
+                    {% else %}
                     <img src="https://place-hold.it/50" alt="">
-                    <div class="md_onimg_text">자켓</div>
-                    <div class="md_onimg_text">179,000원</div>
+                    {% endif %}
+                    <div class="md_onimg_text">{{ clothes.name }}</div>
+                    <div class="md_onimg_text">{{ clothes.price|intcomma }}원</div>
                 </div>
             </a>
+            {% endwith %}
         </div>
         <div class="md_circle_06">
-            <a href="#">
+            {% with right_cap as clothes %}
+            <a href="{% url 'clothes:detail' clothes.pk %}">
                 <div class="md_onimg_box">
+                    {% if clothes.thumbnail %}
+                    <img src="{{ clothes.thumbnail.url }}" alt="">
+                    {% else %}
                     <img src="https://place-hold.it/50" alt="">
-                    <div class="md_onimg_text">모자</div>
-                    <div class="md_onimg_text">919,000원</div>
+                    {% endif %}
+                    <div class="md_onimg_text">{{ clothes.name }}</div>
+                    <div class="md_onimg_text">{{ clothes.price|intcomma }}원</div>
                 </div>
             </a>
+            {% endwith %}
         </div>
     </div>
     <div class="md_text">
