@@ -60,7 +60,9 @@
 
       <p class="text-secondary">{{ cloth.brand }}</p>
       <p class="fw-bold">{{ cloth.name }}</p>
+      {% if cloth.category != 'accessories' %}
       <p>size : <span id="clothSize">{{ cloth.size }}</span></p>
+      {% endif %}
       <p><span id="clothesPrice">{{ cloth.price }}</span>원</p>
       {% comment %} <div class="dropdown">
         <button class="btn btn-outline-primary dropdown-toggle mb-4" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -102,20 +104,22 @@
           {% if request.user.is_authenticated %}
           <form id="likes-form" data-cloth-id="{{ cloth.pk }}" class="index--heart flex-grow-1">
             {% csrf_token %}
-            {% if request.user in cloth.like_users.all %}
-            <button class="btn btn-outline-dark btn-lg align-content-center w-100" type="submit">
-              <i class="bi bi-suit-heart-fill" id="cloth-heart"></i>
-            </button>
-            {% else %}
+              {% if request.user in cloth.like_users.all %}
+              <button class="btn btn-outline-dark btn-lg align-content-center w-100" type="submit">
+                <i class="bi bi-suit-heart-fill" id="cloth-heart"></i>
+              </button>
+              {% else %}
+              <button class="btn btn-outline-dark btn-lg align-content-center w-100" type="submit">
+                <i class="bi bi-suit-heart" id="cloth-heart"></i>
+              </button>
+              {% endif %}
+          </form>
+          {% else %}
+          <div class="index--heart flex-grow-1">
             <button class="btn btn-outline-dark btn-lg align-content-center w-100" type="submit">
               <i class="bi bi-suit-heart" id="cloth-heart"></i>
             </button>
-            {% endif %}
-          </form>
-          {% else %}
-          <button class="btn btn-outline-dark btn-lg align-content-center" style="width: 50px; margin-left: 10px" disabled>
-            <i class="bi bi-suit-heart" id="cloth-heart"></i>
-          </button>
+          </div>
           {% endif %}
 
           <form action="{% url 'accounts:add_cart' cloth.pk %}" method="post" class="flex-grow-1">
