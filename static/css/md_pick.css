@@ -152,6 +152,9 @@
 
 .md_onimg_text {
     text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .custom-shape-divider-bottom-1684270524 {

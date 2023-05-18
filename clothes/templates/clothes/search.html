@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
+
 
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
 {% endblock head %}
+
 
 {% block content %}
 <div class="search-results">
@@ -24,7 +27,7 @@
               <a href="{% url 'clothes:detail' cloth.pk %}">{{ cloth.name }}</a>
             </h3>
             <p class="cloth-description">{{ cloth.category }}</p>
-            <p class="cloth-price">${{ cloth.price }}</p>
+            <p class="cloth-price">{{ cloth.price|intcomma }}원</p>
             <p class="cloth-add-text">즉시구매가</p>
           </div>
         </div>

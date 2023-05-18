@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
+
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
@@ -22,7 +24,7 @@
                 {% endif %}
                 <div class="product-title">{{ cloth.name }}</div>
                 <div class="product-description">{{ cloth.category }}</div>
-                <div class="product-price-text">${{ cloth.price }}</div>
+                <div class="product-price-text">{{ cloth.price|intcomma }}원</div>
                 <p class="product-add-text">즉시구매가</p>
             </a>
         </div>

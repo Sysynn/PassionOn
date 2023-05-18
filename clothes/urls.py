@@ -21,4 +21,5 @@ urlpatterns = [
     path('recommends/<int:recommend_pk>/comments/<int:comment_pk>/delete/', views.comments_delete, name='comments_delete'),
     path('shop/', views.shop, name='shop'),
     path('md-pick/', views.md_pick, name='md_pick'),
+    path('gender/<str:gender>/', views.gender, name='gender'),
 ]

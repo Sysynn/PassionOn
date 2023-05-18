@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 
 
 {% block head %}
@@ -43,7 +44,13 @@
 
       {% for cloth_image in cloth_images %}
       <div class="thumbnail-container">
-        <img src="{{ cloth_image.image.url }}" alt="Clothes Image" class="thumbnail" data-large-image="{{ cloth_image.image.url }}" data-thumbnail-image="{{ cloth.thumbnail.url }}">
+        <img src="{{ cloth_image.image.url }}" alt="Clothes Image" class="thumbnail" 
+        data-large-image="{{ cloth_image.image.url }}"
+        {% if cloth.thumbnail %}
+        data-thumbnail-image="{{ cloth.thumbnail.url }}">
+        {% else %}
+        data-thumbnail-image="{% static 'img/common/passionon.png' %}">
+        {% endif %}
       </div>
       {% endfor %}
       
@@ -147,7 +154,7 @@
 
       <div class="text-center my-5">
         {% for img in cloth_description_images %}
-        <img src="{{ img.description_image.url }}" alt="" class="" style="max-width: 50rem;">
+        <img src="{{ img.description_image.url }}" alt="" class="d-block mx-auto" style="max-width: 50rem;">
         {% empty %}
         <p class="text-secondary text-center">
           상품 정보가 없습니다.

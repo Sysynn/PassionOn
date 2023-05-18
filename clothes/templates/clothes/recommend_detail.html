@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
+
 
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/recommend_detail.css' %}">
@@ -78,7 +80,7 @@
       </div>
       <div class="d-flex">
         {% for cloth in recommend.clothes.all %}
-        <div class="me-2">
+        <div class="me-2 overflow-hidden" style="width: 9rem;">
           <a href="{% url 'clothes:detail' cloth.pk %}">
           {% if cloth.thumbnail %}
             <img class="recommend_item" src="{{ cloth.thumbnail.url }}" alt="상품 썸네일">
@@ -87,9 +89,9 @@
           {% endif %}
           </a>
           <p>
-            <a href="{% url 'clothes:detail' cloth.pk %}"><strong>{{ cloth.name }}</strong></a>
+            <a href="{% url 'clothes:detail' cloth.pk %}"><strong class="text-nowrap">{{ cloth.name }}</strong></a>
           </p>
-          <p>{{ cloth.price }}원</p>
+          <p>{{ cloth.price|intcomma }}원</p>
         </div>
         {% endfor %}
       </div>

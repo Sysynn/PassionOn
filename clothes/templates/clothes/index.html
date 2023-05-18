@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
+
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/carousel.css' %}">  
@@ -68,7 +70,7 @@
                     {% endif %}
                     <div class="product-title">{{ cloth.name }}</div>
                     <div class="product-description">{{ cloth.brand }}</div>
-                    <div class="product-price-text">{{ cloth.price }}원</div>
+                    <div class="product-price-text">{{ cloth.price|intcomma }}원</div>
                     <p class="product-add-text">즉시구매가</p>
                 </a>
             </div>
@@ -101,7 +103,7 @@
                     {% endif %}
                     <div class="product-title">{{ cloth.name }}</div>
                     <div class="product-description">{{ cloth.brand }}</div>
-                    <div class="product-price-text">${{ cloth.price }}</div>
+                    <div class="product-price-text">{{ cloth.price|intcomma }}원</div>
                     <p class="product-add-text">즉시구매가</p>
                 </a>
             </div>
@@ -123,10 +125,13 @@
             {% for recommend in recommends %}
             <div class="product-item">
                 <a href="{% url 'clothes:recommend_detail' recommend.pk %}">
+                    {% if recommend.recommendimage_set.all.first.image %}
+                    <img src="{{ recommend.recommendimage_set.all.first.image.url }}" alt="Coordi 1">
+                    {% else %}
                     <img src="{% static 'img/common/passionon.png' %}" alt="Coordi 1">
+                    {% endif %}
                     <div class="product-title">{{ recommend.title }}</div>
                     <div class="product-description recommend-product-description">{{ recommend.content }}</div>
-                    <p class="product-add-text">즉시구매가</p>
                 </a>
             </div>
             {% endfor %}
