@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 
 
 {% block head %}
@@ -9,7 +10,7 @@
 
 {% block content %}
 <div class="main-container">
-    <div class="profile-page">
+    <div class="profile-page mx-auto">
         <div class="profile-page__image">
             {% if request.user.profile_image %}
             <img src="{{ request.user.profile_image.url }}" alt="Empty Profile Image" id="profileImage">
@@ -41,12 +42,55 @@
         <p class="fw-bold">{{ person.email }}</p>
         {% endif %}
     </div>
+
     <div class="right-div">
+
         {% if request.user == person %}
-        <section>장바구니</section>
+        <section class="fw-bold fs-5">장바구니</section>
         <!-- 장고 입력 예시  -->
         <div class="cart">
-            {% for item in carts %}
+            {% if carts|length == 0 %}
+            <p class="text-secondary text-center mt-4">장바구니가 비었습니다.</p>
+            {% else %}
+            <table class="table table-hover text-center text-nowrap">
+                <thead class="">
+                    <tr>
+                        <td>상품사진</td>
+                        <td>상품명</td>
+                        <td>가격</td>
+                        <td>개수</td>
+                        <td>총 가격</td>
+                        <td class="text-body-tertiary">삭제</td>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in carts %}
+                <tr>
+                    <td>
+                        <a href="{% url 'clothes:detail' item.cloth.pk %}" class="d-block cart-item">
+                            {% if item.cloth.thumbnail %}
+                            <img src="{{ item.cloth.thumbnail.url }}" alt="product_image">
+                            {% else %}
+                            <img src="{% static 'img/common/passionon.png' %}" alt="No Product Image" class="">
+                            {% endif %}
+                        </a>
+                    </td>
+                    <td><a href="{% url 'clothes:detail' item.cloth.pk %}" class="d-block text-nowrap overflow-hidden">{{ item.cloth.name }}</a></td>
+                    <td><a href="{% url 'clothes:detail' item.cloth.pk %}" class="d-block">{{ item.cloth.price|intcomma }}원</a></td>
+                    <td><a href="{% url 'clothes:detail' item.cloth.pk %}" class="d-block">{{ item.quantity }}</a></td>
+                    <td><a href="{% url 'clothes:detail' item.cloth.pk %}" class="d-block">{{ item.item_cost|intcomma }}원</a></td>
+                    <td>
+                        <form action="{% url 'accounts:delete_cart_item' request.user item.pk %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="text-danger border-0 bg-transparent">X</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+            {% comment %} {% for item in carts %}
             <a href="{% url 'clothes:detail' item.cloth.pk %}">
                 <div class="cart-item">
                     {% if item.cloth.thumbnail %}
@@ -61,11 +105,58 @@
                     <p>{{ item.item_cost }}원</p>
                 </div>
             </a>
-            {% endfor %}
+            <form action="{% url 'accounts:delete_cart_item' item.pk %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="text-danger border-0 bg-transparent">X</button>
+            </form>
+            {% endfor %} {% endcomment %}
         </div>
-        <section>구매 내역</section>
+
+        <section class="profile-section fw-bold fs-5">구매 내역</section>
         <div class="purchase-history">
-            <div class="purchase-history">
+            {% if purchase_logs|length == 0 %}
+            <p class="text-secondary text-center mt-4">구매내역이 없습니다.</p>
+            {% else %}
+            <table class="table table-hover text-center text-nowrap">
+                <thead class="">
+                    <tr>
+                        <td>상품사진</td>
+                        <td>상품명</td>
+                        <td>가격</td>
+                        <td>개수</td>
+                        <td>총 가격</td>
+                        <td class="text-body-tertiary">삭제</td>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in purchase_logs %}
+                <tr class="">
+                    <td>
+                        <a href="{% url 'clothes:detail' item.cloth.pk %}" class="d-block cart-item">
+                            {% if item.cloth.thumbnail %}
+                            <img src="{{ item.cloth.thumbnail.url }}" alt="product_image">
+                            {% else %}
+                            <img src="{% static 'img/common/passionon.png' %}" alt="No Product Image" class="">
+                            {% endif %}
+                        </a>
+                    </td>
+                    <td><a href="{% url 'clothes:detail' item.cloth.pk %}" class="d-block text-nowrap overflow-hidden">{{ item.cloth.name }}</a></td>
+                    <td><a href="{% url 'clothes:detail' item.cloth.pk %}" class="d-block">{{ item.cloth.price|intcomma }}원</a></td>
+                    <td><a href="{% url 'clothes:detail' item.cloth.pk %}" class="d-block">{{ item.quantity }}</a></td>
+                    <td><a href="{% url 'clothes:detail' item.cloth.pk %}" class="d-block">{{ item.item_cost|intcomma }}원</a></td>
+                    <td>
+                        <form action="{% url 'accounts:delete_purchase_log' request.user item.pk %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="text-danger border-0 bg-transparent">X</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+            {# 이전 구매 내역 #}
+            {% comment %} <div class="purchase-history">
                 <div class="history-item">
                     <p>상품명</p>
                     <p>가격</p>
@@ -82,23 +173,46 @@
                         <p>{{ item.item_cost }}원</p>
                     </div>
                 </a>
+                <form action="{% url 'accounts:delete_purchase_log' item.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="text-danger border-0 bg-transparent">X</button>
+                </form>
                 {% endfor %}
-            </div>
+            </div> {% endcomment %}
         </div>
         {% endif %}
-        <section>피드</section>
+
+        <section class="profile-section fw-bold fs-5 mb-3">피드</section>
         <div class="feed">
-            {% for feed in feeds %}
-            <div class="feed-item">
-                <div class="feed-image">
-                    <img src="{{ feed.image_url }}" alt="feed_image">
+            {% if person.recommend_set.all|length == 0 %}
+            <p class="text-secondary text-center mx-auto mt-5">등록한 코디가 없습니다.</p>
+            {% else %}
+            {% for feed in person.recommend_set.all %}
+            <a href="{% url 'clothes:recommend_detail' feed.pk %}" class="">
+                <div class="feed-item">
+                    <div class="feed-image">
+                        {% with feed.recommendimage_set.all.first.image as image %}
+                        {% if image %}
+                        <img src="{{ image.url }}" alt="feed_image">
+                        {% else %}
+                        <img src="{% static 'img/common/passionon.png' %}" alt="">
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                    <div class="feed-content">
+                        <p>{{ feed.title }}</p>
+                        <p>
+                            {% for tag in feed.tags.all %}
+                            <span class="text-secondary">#{{ tag }}</span>
+                            {% endfor %}
+                        </p>
+                    </div>
                 </div>
-                <div class="feed-content">
-                    <p>{{ feed.content }}</p>
-                </div>
-            </div>
+            </a>
             {% endfor %}
+            {% endif %}
         </div>
+
     </div>
 </div>
 {% endblock content %}

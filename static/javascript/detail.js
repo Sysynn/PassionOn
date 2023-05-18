@@ -12,7 +12,7 @@ dropdownItems.forEach(function(item) {
 });
 
 function decrease() {
-  var input = document.getElementById('numInput');
+  let input = document.getElementById('numInput');
   if (input.value > 1) {
     input.value--;
     updateTotal();
@@ -20,13 +20,13 @@ function decrease() {
 }
 
 function increase() {
-  var input = document.getElementById('numInput');
+  let input = document.getElementById('numInput');
   input.value++;
   updateTotal();
 }
 
 function checkValue() {
-  var input = document.getElementById('numInput');
+  let input = document.getElementById('numInput');
   if (input.value < 1) {
     input.value = 1;
   }
@@ -38,14 +38,14 @@ function updateTotal() {
   var productSize = document.getElementById('clothSize').textContent
   var quantityInput = document.getElementById('quantityInput')
   var purchaseQuantityInput = document.getElementById('purchaseQuantityInput')
-  var price = document.getElementById('clothesPrice').textContent;
-  var total = price * parseFloat(input.value);
+  var price = document.getElementById('clothesPrice').textContent.split(',').join('')
+  var total = Number(price) * parseFloat(input.value);
   if (isNaN(total)) {
     total = 0;
   }
   quantityInput.value = input.value
   purchaseQuantityInput.value = input.value
-  document.getElementById('totalAmount').innerHTML = "사이즈 : " + productSize + " " + "수량 : " + input.value + " / 총 상품금액: " + total.toLocaleString('ko-KR') + "원";
+  document.getElementById('totalAmount').innerHTML = "사이즈 : " + productSize + " " + "/ 수량 : " + input.value + " /\n 총 상품금액: " + total.toLocaleString('ko-KR') + "원";
 }
 
 const thumbnails = document.querySelectorAll('.thumbnail');

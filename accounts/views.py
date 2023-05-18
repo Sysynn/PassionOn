@@ -21,6 +21,7 @@ def profile(request, username: str):
     person = User.objects.get(username=username)
     carts = Cart.objects.filter(user=person)
     purchases = PurchaseLog.objects.filter(user=person)
+    purchases = PurchaseLog.objects.filter(user=person)
     
     change_form = CustomUserChangeForm()
     if request.user == person:

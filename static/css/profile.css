@@ -1,5 +1,6 @@
 
 .main-container {
+    min-width: 33rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -8,6 +9,7 @@
 
 @media (min-width: 768px) {
     .main-container {
+        min-width: 63rem;
         flex-direction: row;
         justify-content: space-between;
     }
@@ -67,12 +69,13 @@
 }
 
 .right-div {
+    min-width: 38rem;
     flex: 1;
     padding: 3rem;
     background-color: rgb(243, 243, 243);
 }
-.right-div div {
-    margin-bottom: 3rem;
+.profile-section {
+    margin-top: 3rem;
 }
 .cart, .purchase-history, .feed {
     margin-bottom: 20px;
@@ -80,7 +83,7 @@
 
 .cart-item, .history-item, .feed-item {
     display: flex;
-    justify-content: space-between;
+    justify-content: space;
     margin-bottom: 10px;
 }
 
@@ -104,17 +107,13 @@
 .feed {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-}
-.feed {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: start;
 }
 
 .feed-item {
-    width: calc(25% - 10px);
-    margin-bottom: 20px;
+    /* width: calc(30% - 10px); */
+    width: 15rem;
+    margin-right: 1.2rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     overflow: hidden;
@@ -138,4 +137,5 @@
     background: white;
     padding: 10px;
     flex: 4;
+    margin-bottom: 0px;
 }
