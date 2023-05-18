@@ -79,12 +79,12 @@
            <span>님, 안녕하세요!</span>
     </p>
     {% if request.user.is_superuser %}
-    <a href="{% url 'clothes:create' %}" class="btn btn-warning me-2">상품 등록</a>
+    <a href="{% url 'clothes:create' %}" class="btn btn-warning btn-sm me-2">상품 등록</a>
     {% endif %}
-    <a href="{% url 'clothes:recommend_create' %}" class="btn btn-secondary me-2">코디 등록</a>
+    <a href="{% url 'clothes:recommend_create' %}" class="btn btn-secondary btn-sm me-2">코디 등록</a>
     <form action="{% url 'accounts:logout' %}" method="post" class="">
         {% csrf_token %}
-        <button type="submit" class="btn btn-dark">Logout</button>
+        <button type="submit" class="btn btn-dark btn-sm">Logout</button>
 
     </form>
     {% endif %}
