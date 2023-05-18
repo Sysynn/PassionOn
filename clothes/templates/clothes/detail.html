@@ -60,10 +60,8 @@
 
       <p class="text-secondary">{{ cloth.brand }}</p>
       <p class="fw-bold">{{ cloth.name }}</p>
-      {% if cloth.category != 'accessories' %}
-      <p>size : <span id="clothSize">{{ cloth.size }}</span></p>
-      {% endif %}
-      <p><span id="clothesPrice">{{ cloth.price }}</span>원</p>
+      <p {% if cloth.category == 'accessories' %}hidden{% endif %}>size : <span id="clothSize">{{ cloth.size }}</span></p>
+      <p><span id="clothesPrice">{{ cloth.price|intcomma }}</span>원</p>
       {% comment %} <div class="dropdown">
         <button class="btn btn-outline-primary dropdown-toggle mb-4" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           옵션을 선택하세요
